@@ -7,11 +7,7 @@ import org.junit.runner._
 import play.api.test._
 import play.api.test.Helpers._
 
-/**
- * Add your spec here.
- * You can mock out a whole application including requests, plugins etc.
- * For more information, consult the wiki.
- */
+
 @RunWith(classOf[JUnitRunner])
 class MainControllerSpec extends Specification {
 
@@ -21,11 +17,28 @@ class MainControllerSpec extends Specification {
       route(FakeRequest(GET, "/boum")) must beNone
     }
 
-    "render the index page" in new WithApplication {
+    "redirect to the login page" in new WithApplication {
       val home = route(FakeRequest(GET, "/")).get
 
       status(home) must equalTo(TEMPORARY_REDIRECT)
       redirectLocation(home) must beSome.which(_ == "/login")
+    }
+
+    "allow login" in new WithApplication {
+      val email = "test@test.com"
+      val home = route(FakeRequest(POST, "/login").withFormUrlEncodedBody(("email", email))).get
+
+      status(home) must equalTo(TEMPORARY_REDIRECT)
+      redirectLocation(home) must beSome.which(_ == "/")
+      cookies(home).get("email") must beSome.which(_.value == email)
+    }
+
+    "fail invalid email login" in new WithApplication {
+      val email = "test.test.com"
+      val home = route(FakeRequest(POST, "/login").withFormUrlEncodedBody(("email", email))).get
+
+      status(home) must equalTo(BAD_REQUEST)
+      contentAsString(home) must contain("invalid email")
     }
   }
 }
