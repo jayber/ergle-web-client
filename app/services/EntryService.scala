@@ -4,7 +4,7 @@ import javax.inject.{Inject, Named, Singleton}
 import play.api.libs.ws.WS
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-@Named("entryService")
+@Named()
 @Singleton
 class EntryService {
 

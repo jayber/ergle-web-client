@@ -30,19 +30,15 @@ class MainController extends Controller {
       }
   }
 
-
   def getEmail(implicit request: Request[AnyContent]): Option[String] = {
     request.cookies.get(cookieName).map {
       _.value
     }
   }
 
-  def indexWithEntries(email: String) =
-    entryService.entries(email).map {
-      entries =>
-        Ok(views.html.main("ergle", views.html.index(entries)))
-    }
-
+  def indexWithEntries(email: String) = Future {
+    Ok(views.html.main("ergle", views.html.index()))
+  }
 
   def showLogin = Action {
 
@@ -69,7 +65,7 @@ class MainController extends Controller {
         },
         userData => {
           //          loginService.login(userData)
-          Redirect("/").withCookies(Cookie(cookieName, userData))
+          Redirect("/").withCookies(Cookie(cookieName, userData, Some(60 * 60 * 24 * 365)))
         })
   }
 }

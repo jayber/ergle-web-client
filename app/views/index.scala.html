@@ -1,3 +1,12 @@
-@(entries: play.api.libs.json.JsValue)
 
 index page
+
+<slot></slot>
+
+<script>
+$ ( document ).ready ( function ( ) {
+$ ( '.loadable' ).each ( function ( ) {
+$ ( this ).load ( $ ( this ).attr ( 'href' ) + '/wrapper' ) ;
+} ) ;
+} ) ;
+</script>
