@@ -1,0 +1,111 @@
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0
+}
+
+html {
+    font-family: "Helvetica Neue Light", arial, sans-serif;
+    font-size: 10pt;
+    color: #777777;
+    overflow-y: scroll;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:visited {
+    color: inherit;
+}
+
+ul {
+    list-style-type: none;
+}
+
+body {
+    margin: 5px;
+}
+
+header {
+    text-align: right;
+    color: #CCCCCC;
+    padding: 2px;
+}
+
+h1 {
+    font-size: 1.5em;
+    font-weight: 300;
+    line-height: 1em;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #555555;
+}
+
+h1 .titleText {
+    color: #999999;
+}
+
+.tabs {
+    layout: flow-horizontal;
+    width: 100%;
+}
+
+.tabs li {
+    width: 50%;
+    text-align: center;
+}
+
+.tabs a {
+    display: block;
+    background-color: #f5f5f5;
+    padding: 3px;
+    margin: 1px;
+}
+
+#container {
+    layout: flow-horizontal;
+}
+
+#contacts {
+    width: 200px;
+    display: none;
+}
+
+#files {
+    layoutConstraints: wgrow;
+}
+
+#files ul li .title {
+    display: block;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 0.25em;
+}
+
+#files ul li .emphasize {
+    font-weight: bold;
+}
+
+#files ul li {
+    background-color: #f5f5f5;
+    padding: 0.75em;
+    margin: 0.25em;
+}
+
+#files img {
+    max-width: 100%;
+}
+
+#files pre {
+    background-color: #ffffff;
+}
+
+@media screen and (min-width: 500px) {
+    .tabs {
+        display: none;
+    }
+
+    #contacts {
+        display: block;
+    }
+}

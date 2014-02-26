@@ -18,15 +18,24 @@ class MainController extends Controller {
 
   val cookieName = "email"
 
-  def index = Action.async {
+  def index(owner: String) = Action.async {
+    def ownerMatch(email: String): Future[SimpleResult] = {
+      owner match {
+        case "" =>
+          Future {
+            Redirect("/" + email)
+          }
+        case _ => indexWithEntries(email, owner)
+      }
+    }
+
     implicit request: Request[AnyContent] =>
       getEmail match {
-        case Some(email) => indexWithEntries(email)
+        case Some(email) => ownerMatch(email)
         case _ =>
           Future {
             Redirect("/login")
           }
-
       }
   }
 
@@ -36,8 +45,8 @@ class MainController extends Controller {
     }
   }
 
-  def indexWithEntries(email: String) = Future {
-    Ok(views.html.main("ergle", views.html.index()))
+  def indexWithEntries(email: String, owner: String): Future[SimpleResult] = Future {
+    Ok(views.html.template("ergle", email, views.html.index(owner)))
   }
 
   def showLogin = Action {
@@ -47,7 +56,7 @@ class MainController extends Controller {
         "email" -> email
       )
     )
-    Ok(views.html.main("login", views.html.login(emailForm, "")))
+    Ok(views.html.template("login", "", views.html.login(emailForm, "")))
   }
 
   def login = Action {
@@ -61,7 +70,7 @@ class MainController extends Controller {
 
       emailForm.bindFromRequest().fold(
         formWithErrors => {
-          BadRequest(views.html.main("login error", views.html.login(emailForm, "invalid email address")))
+          BadRequest(views.html.template("login error", "", views.html.login(emailForm, "invalid email address")))
         },
         userData => {
           //          loginService.login(userData)

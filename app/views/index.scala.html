@@ -1,12 +1,34 @@
+@(email: String)
 
-index page
+<h1><span class="titleText">timeline for:</span> @email</h1>
 
-<slot></slot>
+<ul class="tabs">
+    <li><a href="#" id="timelineTab">timeline</a></li>
+    <li><a href="#" id="contactsTab">contacts</a></li>
+</ul>
+
+<div id="container">
+    <slot></slot>
+    <slot></slot>
+</div>
 
 <script>
 $ ( document ).ready ( function ( ) {
 $ ( '.loadable' ).each ( function ( ) {
 $ ( this ).load ( $ ( this ).attr ( 'href' ) + '/wrapper' ) ;
+} ) ;
+} ) ;
+</script>
+
+<script>
+$ ( document ).ready ( function ( ) {
+$ ( '.tabs #timelineTab' ).click ( function ( ) {
+$ ( '#files' ).css ( 'display', 'block' ) ;
+$ ( '#contacts' ).css ( 'display', 'none' ) ;
+} ) ;
+$ ( '.tabs #contactsTab' ).click ( function ( ) {
+$ ( '#contacts' ).css ( 'display', 'block' ) ;
+$ ( '#files' ).css ( 'display', 'none' ) ;
 } ) ;
 } ) ;
 </script>
