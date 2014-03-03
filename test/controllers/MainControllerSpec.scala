@@ -15,6 +15,7 @@ import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import org.specs2.execute.AsResult
 import org.specs2.matcher.ThrownExpectations
+import controllers.erglewebclient.MainController
 
 
 @RunWith(classOf[JUnitRunner])

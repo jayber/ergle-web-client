@@ -1,4 +1,4 @@
-package controllers
+package controllers.erglewebclient
 
 import play.api.mvc._
 import play.api.data.Form

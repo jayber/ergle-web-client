@@ -1,6 +1,6 @@
 @(form: Form[String], error: String)
 
-<form method="POST" action="@routes.MainController.login">
+<form method="POST" action="/login">
     <label for="emailField">enter email address</label>
     <input name="email" type="email" id="emailField" placeholder="email address"> <input id="submit" type="submit" value="sign up">
     <span id="emailFieldError">@error</span>
