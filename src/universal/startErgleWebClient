@@ -1,1 +1,1 @@
-sudo bin/ergle-web-client -Dhttp.port=9001 2> /dev/null &
+sudo bin/ergle-web-client "-Dhttp.port=9001 -Xmx750m -Xms750m" 2> /dev/null &
