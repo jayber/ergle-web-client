@@ -13,9 +13,6 @@ import play.api.libs.concurrent.Execution.Implicits.defaultContext
 @Singleton
 class MainController extends Controller {
 
-  @Inject
-  var entryService: EntryService = null
-
   val cookieName = "email"
 
   def index(owner: String) = Action.async {
