@@ -3,6 +3,7 @@ package utils
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import play.api.Application
 import play.api.GlobalSettings
+import services.ScheduleProvider
 
 object Global extends GlobalSettings {
 
@@ -14,6 +15,8 @@ object Global extends GlobalSettings {
     ctx.scan("controllers", "services")
     ctx.refresh()
     ctx.start()
+
+    scheduleJobs()
   }
 
   override def onStop(app: Application) {
@@ -23,5 +26,12 @@ object Global extends GlobalSettings {
   override def getControllerInstance[A](aClass: Class[A]): A = {
     ctx.getBean(aClass)
   }
+
+  def scheduleJobs() {
+    val scheduleProvider = ctx.getBean("scheduleProvider").asInstanceOf[ScheduleProvider]
+    scheduleProvider.startEmailSchedule()
+  }
 }
+
+
 

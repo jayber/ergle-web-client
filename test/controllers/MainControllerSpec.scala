@@ -8,14 +8,6 @@ import play.api.test._
 import play.api.test.Helpers._
 import play.api.mvc.Cookie
 import org.specs2.mock.Mockito
-import services.EntryService
-import utils.Global
-import play.api.libs.json.{JsString, JsValue}
-import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import org.specs2.execute.AsResult
-import org.specs2.matcher.ThrownExpectations
-import controllers.erglewebclient.MainController
 
 
 @RunWith(classOf[JUnitRunner])

@@ -1,0 +1,11 @@
+@(settings: Form[controllers.erglewebclient.SettingsFromForm], message: String = "")
+
+<h1>Update settings</h1>
+<span class="message">@message</span>
+
+<form method="post">
+    @helper.inputText(settings("serverAddress"),'_label -> "Imap server address")<br>
+    @helper.inputText(settings("userName"),'_label -> "Account username")<br>
+    @helper.inputText(settings("password"),'_label -> "Account password", 'type -> "password")<br>
+    <input type="submit" value="save">
+</form>

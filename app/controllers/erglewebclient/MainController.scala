@@ -4,16 +4,13 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject.{Singleton, Named, Inject}
-import services.EntryService
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 
 @Named
 @Singleton
-class MainController extends Controller {
-
-  val cookieName = "email"
+class MainController extends Controller with ControllerUtils{
 
   def index(owner: String) = Action.async {
     def ownerMatch(email: String): Future[SimpleResult] = {
@@ -34,12 +31,6 @@ class MainController extends Controller {
             Redirect("/login")
           }
       }
-  }
-
-  def getEmail(implicit request: Request[AnyContent]): Option[String] = {
-    request.cookies.get(cookieName).map {
-      _.value
-    }
   }
 
   def indexWithEntries(email: String, owner: String): Future[SimpleResult] = Future {
