@@ -11,6 +11,10 @@ html {
     background-color: #f5f5f5;
 }
 
+#pageContent {
+    clear: both;
+}
+
 a {
     text-decoration: none;
     color: inherit;
@@ -37,17 +41,22 @@ body {
 }
 
 header {
+    float: right;
     text-align: right;
-    color: #CCCCCC;
     padding: 2px;
 }
 
+a.header {
+    color: #CCCCCC;
+}
+
 h1 {
+    float: left;
     font-size: 1.5em;
     font-weight: 300;
     line-height: 1em;
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 5px;
     color: #555555;
 }
 
@@ -89,6 +98,7 @@ h1 .titleText {
     display: block;
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 0.25em;
+    margin-bottom: 0.25em;
 }
 
 #files ul li .emphasize {

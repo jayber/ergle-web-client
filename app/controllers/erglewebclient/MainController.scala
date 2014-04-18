@@ -34,7 +34,7 @@ class MainController extends Controller with ControllerUtils{
   }
 
   def indexWithEntries(email: String, owner: String): Future[SimpleResult] = Future {
-    Ok(views.html.template("ergle", email, views.html.index(owner)))
+    Ok(views.html.template("ergle", email, views.html.main(owner)))
   }
 
   def showLogin = Action {

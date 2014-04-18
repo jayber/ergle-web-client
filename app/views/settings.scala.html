@@ -1,6 +1,9 @@
 @(settings: Form[controllers.erglewebclient.SettingsFromForm], message: String = "")
 
 <h1>Update settings</h1>
+
+<div id="pageContent">
+
 <span class="message">@message</span>
 
 <form method="post">
@@ -9,3 +12,4 @@
     @helper.inputText(settings("password"),'_label -> "Account password", 'type -> "password")<br>
     <input type="submit" value="save">
 </form>
+</div>
