@@ -40,9 +40,9 @@ class CheckEmailActor extends Actor {
   def doIfAccountStillValid(setting: EmailSetting, dataStore: DataStore, period: FiniteDuration, emailChecker: EmailChecker) = {
     val resultFuture = dataStore.find(setting.ownerEmail)
     resultFuture.map {
-      case Some(setting) => {
+      case Some(`setting`) => {
         try {
-          emailChecker.checkEmail(setting, dataStore)
+          emailChecker.checkEmail(setting)
         } finally {
           rescheduleCheck(setting, dataStore, period, emailChecker)
         }

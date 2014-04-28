@@ -14,6 +14,7 @@ import java.util.Date
 @Singleton
 class DataStore {
 
+
   val driver = new MongoDriver
   val connection = driver.connection(List("localhost"))
   val db = connection("ergle")
@@ -31,6 +32,12 @@ class DataStore {
     )).cursor.headOption.map {
       result => result.map(mapBSONDocumentToEmailSetting)
     }
+  }
+
+  def delete(ownerEmail: String) = {
+    collection.remove(BSONDocument(
+      "ownerEmail" -> ownerEmail
+    ))
   }
 
   def listEmailSettings = {

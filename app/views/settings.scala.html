@@ -6,10 +6,11 @@
 
 <span class="message">@message</span>
 
-<form method="post">
+<form method="POST">
     @helper.inputText(settings("serverAddress"),'_label -> "Imap server address")<br>
     @helper.inputText(settings("userName"),'_label -> "Account username")<br>
     @helper.inputText(settings("password"),'_label -> "Account password", 'type -> "password")<br>
-    <input type="submit" value="save">
+<a href="/removeSetting">remove</a>
+<input type="submit" value="save">
 </form>
 </div>
