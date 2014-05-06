@@ -14,11 +14,18 @@
 </div>
 
 <script>
-$ ( document ).ready ( function ( ) {
-$ ( '.loadable' ).each ( function ( ) {
-$ ( this ).load ( $ ( this ).attr ( 'href' ) + '/wrapper' ) ;
+$ ( document ).ready (function() {
+    loadFragments($(document))
+}) ;
+
+function loadFragments(context) {
+$ ( '.loadable', context ).each ( function ( ) {
+$ ( this ).load ( $ ( this ).attr ( 'href' ) + '/wrapper', function(){
+$ ( this ).removeClass("loadable");
+    loadFragments($(this));
+}) ;
 } ) ;
-} ) ;
+}
 </script>
 
 <script>

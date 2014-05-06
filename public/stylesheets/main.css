@@ -24,10 +24,6 @@ a.filename {
     color: #ffc040;
 }
 
-a:visited {
-    color: inherit;
-}
-
 a:hover {
     text-decoration: underline;
 }
@@ -57,6 +53,7 @@ h1 {
     line-height: 1em;
     margin-bottom: 10px;
     margin-top: 5px;
+    margin-left: 0.25em;
     color: #555555;
 }
 
@@ -90,33 +87,55 @@ h1 .titleText {
     display: none;
 }
 
-#files {
+#events {
     layoutConstraints: wgrow;
 }
 
-#files ul li .title {
+#events ul li .title {
     display: block;
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 0.25em;
     margin-bottom: 0.25em;
 }
 
-#files ul li .emphasize {
+#events ul li .emphasize {
     font-weight: bold;
 }
 
-#files ul li {
+#events ul li {
     background-color: #ffffff;
     padding: 0.75em;
     margin: 0.25em;
 }
 
-#files img {
+#events img {
     max-width: 100%;
 }
 
-#files pre {
+#events pre {
     background-color: #ffffff;
+}
+
+#events .fieldLabel {
+    font-weight: bold;
+}
+
+#events ul li.emptyMessage  {
+    color: #999999;
+    font-size: 1.5em;
+}
+
+.attachment {
+    float: left;
+    border: 1px solid #dddddd;
+    width: 30%;
+    padding: 0.25em;
+    max-height: 400px;
+    margin: 0.1em;
+}
+
+pre {
+    overflow: hidden;
 }
 
 @media screen and (min-width: 500px) {

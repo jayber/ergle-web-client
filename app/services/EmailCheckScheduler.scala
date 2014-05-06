@@ -40,14 +40,17 @@ class CheckEmailActor extends Actor {
   def doIfAccountStillValid(setting: EmailSetting, dataStore: DataStore, period: FiniteDuration, emailChecker: EmailChecker) = {
     val resultFuture = dataStore.find(setting.ownerEmail)
     resultFuture.map {
-      case Some(`setting`) => {
+      case Some(newSetting) if setting.nearlyEqual(newSetting) => {
         try {
           emailChecker.checkEmail(setting)
         } finally {
-          rescheduleCheck(setting, dataStore, period, emailChecker)
+          val resultFuture = dataStore.find(setting.ownerEmail)
+          resultFuture.onSuccess {
+            case Some(result) => rescheduleCheck(result, dataStore, period, emailChecker)
+          }
         }
       }
-      case _ => Logger.debug("not rescheduling, setting is gone")
+      case _ => Logger.debug("setting is gone, not running or rescheduling")
     }
   }
 
