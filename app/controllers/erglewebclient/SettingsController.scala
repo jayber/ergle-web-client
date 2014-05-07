@@ -58,7 +58,6 @@ class SettingsController extends Controller with ControllerUtils {
               case `emailSetting` => //do nothing
               case _ =>
                 dataStore.saveEmailSettings(emailSetting)
-                emailCheckScheduler(emailSetting)
             }
               Ok(views.html.template("settings - ergle", getEmail.get, views.html.settings(emailSettingsForm.fill(settings), "Settings updated")))
           }

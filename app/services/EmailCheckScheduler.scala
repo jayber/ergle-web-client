@@ -17,56 +17,40 @@ class EmailCheckScheduler {
   @Inject
   var emailChecker: EmailChecker = null
 
-  def apply(setting: EmailSetting) {
-    doPeriodically(setting, dataStore, 1 minute)
-  }
-
-  def doPeriodically(setting: EmailSetting, dataStore: DataStore, period: FiniteDuration) {
-    val system = ActorSystem("doPeriodicallySystem")
-    val periodicActor = system.actorOf(Props[CheckEmailActor], "doPeriodicallyActor")
-    periodicActor ! Start(setting, dataStore, period, emailChecker)
+  def apply() {
+    val period = 1 minute
+    val system = ActorSystem("actorSystem")
+    val checkEmailActor = system.actorOf(Props[CheckEmailActor], "checkEmailActor")
+    system.scheduler.schedule(period, period, checkEmailActor, Start(dataStore, emailChecker))
   }
 }
 
-case class Start(setting: EmailSetting, dataStore: DataStore, period: FiniteDuration, emailChecker: EmailChecker)
+case class Start(dataStore: DataStore, emailChecker: EmailChecker)
+case class Check(setting: EmailSetting, dataStore: DataStore, emailChecker: EmailChecker)
 
 class CheckEmailActor extends Actor {
   override def receive = {
-    case Start(setting, dataStore, period, emailChecker) => {
-      doIfAccountStillValid(setting, dataStore, period, emailChecker)
-    }
-  }
-
-  def doIfAccountStillValid(setting: EmailSetting, dataStore: DataStore, period: FiniteDuration, emailChecker: EmailChecker) = {
-    val resultFuture = dataStore.find(setting.ownerEmail)
-    resultFuture.map {
-      case Some(newSetting) if setting.nearlyEqual(newSetting) => {
-        try {
-          emailChecker.checkEmail(newSetting)
-        } finally {
-          val resultFuture = dataStore.find(setting.ownerEmail)
-          resultFuture.onSuccess {
-            case Some(result) => rescheduleCheck(result, dataStore, period, emailChecker)
+    case Start(dataStore, emailChecker) => {
+      dataStore.listEmailSettings.onSuccess {
+        case emailSettings =>
+          for (setting <- emailSettings) {
+            checkAccountEmail(setting, dataStore, emailChecker)
           }
-        }
       }
-      case _ => Logger.debug("setting is gone, not running or rescheduling")
     }
   }
 
-  def rescheduleCheck(setting: EmailSetting, dataStore: DataStore, period: FiniteDuration, emailChecker: EmailChecker) {
-    val system = ActorSystem("doPeriodicallySystem")
-    val scheduleActor = system.actorOf(Props[ScheduleCheckEmailActor], "schedulePeriodicallyActor")
-    scheduleActor ! Start(setting, dataStore, period, emailChecker)
+  def checkAccountEmail(setting: EmailSetting, dataStore: DataStore, emailChecker: EmailChecker) = {
+    val system = ActorSystem("actorSystem")
+    val accountCheckEmailActor = system.actorOf(Props[AccountCheckEmailActor], "accountCheckEmailActor")
+    accountCheckEmailActor ! Check(setting, dataStore, emailChecker)
   }
 }
 
-class ScheduleCheckEmailActor extends Actor {
+class AccountCheckEmailActor extends Actor {
   override def receive: Actor.Receive = {
-    case Start(action, dataStore, period, emailChecker) => {
-      val system = ActorSystem("doPeriodicallySystem")
-      val periodicActor = system.actorOf(Props[CheckEmailActor], "doPeriodicallyActor")
-      system.scheduler.scheduleOnce(period, periodicActor, Start(action, dataStore, period, emailChecker))
+    case Check(setting, dataStore, emailChecker) => {
+      emailChecker.checkEmail(setting)
     }
   }
 }
