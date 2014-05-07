@@ -61,7 +61,7 @@ class EmailChecker {
   }
 
   def sendMessage(message: Message, setting: EmailSetting) = {
-    val requestHolder = WS.url(configProvider.config.getString(ConfigProvider.apiUrlKey) + "/emails/").withRequestTimeout(1000 * 10)
+    val requestHolder = WS.url(configProvider.config.getString(ConfigProvider.apiUrlKey) + "/emails/")
     Logger.debug(s"sending message: ${message.getSubject} - ${message.getReceivedDate}")
     val jsonMessage = Json.toJson(MessageContainer(message, setting.ownerEmail))
     Logger.debug("sending " + jsonMessage)

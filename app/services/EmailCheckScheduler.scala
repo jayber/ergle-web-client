@@ -42,7 +42,7 @@ class CheckEmailActor extends Actor {
     resultFuture.map {
       case Some(newSetting) if setting.nearlyEqual(newSetting) => {
         try {
-          emailChecker.checkEmail(setting)
+          emailChecker.checkEmail(newSetting)
         } finally {
           val resultFuture = dataStore.find(setting.ownerEmail)
           resultFuture.onSuccess {
