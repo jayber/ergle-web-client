@@ -1,7 +1,6 @@
 definitions = {
     layout: function (elem, args) {
         elem.children().css('float', 'left');
-        elem.next().css('clear', 'left');
     },
     position: function (elem, args) {
         if (args == 'fixed') {
@@ -38,6 +37,14 @@ definitions = {
             var thisMarginAndPadding = elem.outerWidth(true) - elem.width();
             remainder = remainder - thisMarginAndPadding;
             elem.css('width', remainder + 'px');
+        }
+
+        if (args == 'distribute') {
+            var siblings = elem.siblings().length;
+            if (siblings>0) {
+                var width = 100 / (siblings + 1);
+                elem.css('width', width + '%');
+            }
         }
     }
 }

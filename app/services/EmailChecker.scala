@@ -56,11 +56,11 @@ class EmailChecker {
       Logger.debug(s"filtering message: ${message.getSubject} - ${message.getReceivedDate} - after? ${message.getReceivedDate.after(sinceDate)}")
       message.getReceivedDate.after(sinceDate)
     }).foreach {
-      sendMessage(_, setting)
+      saveEmail(_, setting)
     }
   }
 
-  def sendMessage(message: Message, setting: EmailSetting) = {
+  def saveEmail(message: Message, setting: EmailSetting) = {
     val requestHolder = WS.url(configProvider.config.getString(ConfigProvider.apiUrlKey) + "/emails/")
     Logger.debug(s"sending message: ${message.getSubject} - ${message.getReceivedDate}")
     val jsonMessage = Json.toJson(MessageContainer(message, setting.ownerEmail))
@@ -69,6 +69,8 @@ class EmailChecker {
       case Success(response) =>
         response.status match {
           case 200 => Logger.debug("put email success")
+            updateLatestReceivedDate(setting, message.getReceivedDate)
+          case 413 => Logger.debug(s"${response.status} ${response.statusText}. Do not resend. ${message.getSubject}, ${setting.ownerEmail} ")
             updateLatestReceivedDate(setting, message.getReceivedDate)
           case _ => Logger.error(s"put email error: ${response.status} ${response.statusText} \n ${response.body}")
         }

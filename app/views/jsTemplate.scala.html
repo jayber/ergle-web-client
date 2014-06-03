@@ -4,7 +4,7 @@
 
     $(function() {
     @for((selector, args, propertyName) <- values) {
-        $('@selector').each(function(index) {
+        $('@Html(selector)').each(function(index) {
         var args = "@args";
         definitions['@propertyName']($(this), args);
         })

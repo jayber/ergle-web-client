@@ -6,11 +6,26 @@ import play.api.data.Forms._
 import javax.inject.{Singleton, Named, Inject}
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.mvc.Cookie
+import scala.Some
+import play.api.mvc.SimpleResult
 
 
 @Named
 @Singleton
 class MainController extends Controller with ControllerUtils{
+
+  def multipleTimelines(owners: String) = Action { implicit request =>
+
+    val ownerEmails = owners.split('&')
+    getEmail match {
+      case Some(email) =>
+        Ok(views.html.template("ergle", email, views.html.multiple(ownerEmails)))
+      case _ =>
+          Redirect("/login")
+
+    }
+  }
 
   def index(owner: String) = Action.async {
     def ownerMatch(email: String): Future[SimpleResult] = {

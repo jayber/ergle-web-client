@@ -1,0 +1,14 @@
+@(owners: Array[String])
+
+
+<div id="container">
+    <div class="eventsContainer">
+    @for(owner <- owners) {
+        <div>
+            <h1><span class="titleText">timeline for:</span> @owner</h1>
+            <div class="loadable" href="/events/@owner"></div>
+        </div>
+    }
+    </div>
+    <slot></slot>
+</div>

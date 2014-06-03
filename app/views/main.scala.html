@@ -14,21 +14,6 @@
 </div>
 
 <script>
-$ ( document ).ready (function() {
-    loadFragments($(document))
-}) ;
-
-function loadFragments(context) {
-$ ( '.loadable', context ).each ( function ( ) {
-$ ( this ).load ( $ ( this ).attr ( 'href' ) + '/wrapper', function(){
-$ ( this ).removeClass("loadable");
-    loadFragments($(this));
-}) ;
-} ) ;
-}
-</script>
-
-<script>
 $ ( document ).ready ( function ( ) {
 $ ( '.tabs #timelineTab' ).click ( function ( ) {
 $ ( '#files' ).css ( 'display', 'block' ) ;

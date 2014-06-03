@@ -3,6 +3,15 @@ input::-moz-focus-inner {
     padding: 0
 }
 
+textarea {
+    box-sizing: border-box;
+    display: block;
+}
+
+button {
+    cursor: pointer;
+}
+
 html {
     font-family: "Helvetica Neue Light", arial, sans-serif;
     font-size: 10pt;
@@ -20,7 +29,7 @@ a {
     color: inherit;
 }
 
-a.filename {
+a.eventTitle {
     color: #ffc040;
 }
 
@@ -37,6 +46,7 @@ body {
 }
 
 header {
+    margin-bottom: 10px;
     float: right;
     text-align: right;
     padding: 2px;
@@ -47,7 +57,6 @@ a.header {
 }
 
 h1 {
-    float: left;
     font-size: 1.5em;
     font-weight: 300;
     line-height: 1em;
@@ -87,40 +96,118 @@ h1 .titleText {
     display: none;
 }
 
-#events {
+.eventsContainer {
+    layoutConstraints: wgrow;
+    layout: flow-horizontal;
+}
+
+.events {
     layoutConstraints: wgrow;
 }
 
-#events ul li .title {
+.eventsContainer >div {
+    layoutConstraints: distribute;
+}
+
+.events ul li {
+    margin: 5px;
+}
+
+.events ul li .title {
     display: block;
     border-bottom: 1px solid #e5e5e5;
-    padding-bottom: 0.25em;
     margin-bottom: 0.25em;
+    padding-top: 0.75em;
 }
 
-#events ul li .emphasize {
+.events ul li .emphasize {
     font-weight: bold;
 }
 
-#events ul li {
-    background-color: #ffffff;
-    padding: 0.75em;
-    margin: 0.25em;
+.events ul li .title, .events ul li .body, .versions{
+    padding: 0.25em 0.25em 0.25em 0.75em;
 }
 
-#events img {
+.events ul li >div, .versions {
+    background-color: #ffffff;
+}
+
+.sheaf {
+    display: block;
+}
+
+.events ul li .versions {
+    margin-left: 6px;
+    border-bottom: 1px solid #e5e5e5;
+    border-left: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+    color: #999999;
+    font-size: 8pt;
+}
+
+.events ul li .versions2 {
+    margin-left: 12px;
+    border-top: none;
+    clear: both;
+}
+
+.events ul li .versions .left {
+    float: left;
+}
+
+.events ul li .versions .right {
+    float: right;
+}
+
+.events ul li .comment {
+    margin: 2px 0 8px 6px;
+    background-color: #f5f5f5;
+}
+
+.events ul li .comment button {
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    color: inherit;
+    padding: 3px;
+}
+
+.events ul li .comment span{
+    float: right;
+    font-size: 9pt;
+    margin: 2px;
+    display: none;
+    color: #999999;
+}
+
+.events ul li .comment textarea {
+    padding: 0.3em;
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    border-right-width: 0;
+    background-color: #ffffff;
+    font-size: 9pt;
+    height: 2em;
+    color: inherit;
+}
+
+.notTagged {
+    border-left: 6px SOLID #ffffff;
+}
+
+.events img {
     max-width: 100%;
+    max-height: 300px;
 }
 
-#events pre {
+.events pre {
     background-color: #ffffff;
 }
 
-#events .fieldLabel {
+.events .fieldLabel {
     font-weight: bold;
 }
 
-#events ul li.emptyMessage  {
+.events ul li.emptyMessage  {
     color: #999999;
     font-size: 1.5em;
 }
@@ -137,6 +224,34 @@ h1 .titleText {
 pre {
     overflow: hidden;
 }
+
+.dateCategory {
+    text-align: center;
+    width: 80px;
+    float: left;
+    background-color: #f4dD78;
+    color: #000000;
+    padding: 2px;
+    font-size: 12px;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 1px 3px 3px 1px #999999;
+    position: relative;
+    left: -8px;
+    top: 3px;
+}
+
+#contacts .title {
+    display: block;
+    border-bottom: 1px SOLID #000000;
+    color: #000000;
+}
+
+#contacts .info {
+    display: block;
+    color: #999999;
+    font-size: 9px;
+}
+
 
 @media screen and (min-width: 500px) {
     .tabs {
