@@ -18,7 +18,7 @@ function createCSS(top) {
     var colours = ["#FFC040","#FFC0CB","#1e90ff","#259F40","#800080"];
     var result = "";
     for (var i = 0; i<top.length; i++) {
-        result = result + "." + top[i] + " { border-left: 6px SOLID " + colours[i] + ";}\n";
+        result = result + "." + top[i] + " { background-color: " + colours[i] + " !important;}\n";
     }
     return result;
 }
@@ -48,7 +48,12 @@ function setTagStyles(css) {
 
 function tagsOrderedByFrequency() {
     var tagClasses = $("[class*='tag_']").map(function() {
-          return this.className;
+            var classValue = $(this).attr("class");
+            if (classValue.indexOf(" ")>-1) {
+                return classValue.split(" ")[1];
+            } else {
+                return classValue;
+            }
         }
     );
     var tagCountMap = {};

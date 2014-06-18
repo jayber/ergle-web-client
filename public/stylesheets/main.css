@@ -17,20 +17,20 @@ html {
     font-size: 10pt;
     color: #777777;
     overflow-y: scroll;
-    background-color: #f5f5f5;
+    background-color: #f3f3f3;
 }
 
 #pageContent {
     clear: both;
 }
 
+.clear {
+    clear: both;
+}
+
 a {
     text-decoration: none;
     color: inherit;
-}
-
-a.eventTitle {
-    color: #ffc040;
 }
 
 a:hover {
@@ -54,6 +54,24 @@ header {
 
 a.header {
     color: #CCCCCC;
+}
+
+.eventForm {
+    background-color: #ffffff;
+    width: 400px;
+    border: 1px solid #999999;
+    font-size: 9pt;
+    color: #999999;
+    padding: 5px;
+    margin: 10px 0;
+}
+
+#eventFormReal {
+    display: none;
+}
+
+#eventFormReal h1 {
+    font-size: 10pt;
 }
 
 h1 {
@@ -109,27 +127,79 @@ h1 .titleText {
     layoutConstraints: distribute;
 }
 
-.events ul li {
+.events ul.eventList >li {
     margin: 5px;
+}
+
+.events ul li .body, .versions {
+    padding: 0.25em 0.25em 0.25em 0.75em;
 }
 
 .events ul li .title {
     display: block;
+    padding-bottom: 8px;
+    padding-top: 6px;
+    padding-left: 2px;
     border-bottom: 1px solid #e5e5e5;
-    margin-bottom: 0.25em;
-    padding-top: 0.75em;
+    border-top: 1px solid #f0f0f0;
 }
 
-.events ul li .emphasize {
+.events ul li.future .title {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #999999;
+    border-top: 1px solid #f5f5f5;
+}
+
+
+.events ul li div.defaultTag {
+    background-color: #f5f5f5;
+    padding-left: 6px;
+}
+
+.dateCategory {
+    text-align: center;
+    width: 80px;
+    float: left;
+    background-color: #f4dD78;
+    color: #000000;
+    padding: 2px;
+    font-size: 12px;
+    border-radius: 9px;
+    box-shadow: 1px 3px 3px 1px #999999;
+    position: relative;
+    left: -6px;
+    top: 3px;
+}
+
+.future .dateCategory {
+    background-color: #aabbFF;
+}
+
+.events ul li .eventType {
     font-weight: bold;
+    background-repeat: no-repeat;
+    background-size: 15px;
+    padding-left: 20px;
 }
 
-.events ul li .title, .events ul li .body, .versions{
-    padding: 0.25em 0.25em 0.25em 0.75em;
+.intent {
+    background-image:url('/assets/images/calendar.svg');
 }
 
-.events ul li >div, .versions {
+.email {
+    background-image:url('/assets/images/mail.svg');
+}
+
+.file {
+    background-image:url('/assets/images/clip.svg');
+}
+
+.events ul li div {
     background-color: #ffffff;
+}
+
+.events ul li.future div {
+    background-color: #f5f5f5;
 }
 
 .sheaf {
@@ -159,39 +229,100 @@ h1 .titleText {
     float: right;
 }
 
-.events ul li .comment {
-    margin: 2px 0 8px 6px;
+.events ul li .comments {
+    margin: 0 0 8px 6px;
     background-color: #f5f5f5;
 }
 
-.events ul li .comment button {
+.events ul li .comments button {
     background-color: #ffffff;
     border: 1px solid #e5e5e5;
     color: inherit;
     padding: 3px;
 }
 
-.events ul li .comment span{
+.events ul li .comments button:hover {
+    background-color: #eeeeee;
+}
+
+.events ul li .comments button:active {
+    background-color: #dddddd;
+}
+
+.events ul li .comments span.controls {
     float: right;
     font-size: 9pt;
-    margin: 2px;
+    margin-top: 2px;
     display: none;
     color: #999999;
 }
 
-.events ul li .comment textarea {
+.events ul li .comments textarea, .events ul li .comments .comment {
     padding: 0.3em;
-    width: 100%;
-    border: 1px solid #e5e5e5;
-    border-right-width: 0;
     background-color: #ffffff;
-    font-size: 9pt;
-    height: 2em;
     color: inherit;
+    border: 0 solid #F5F5F5;
+    border-top-width: 1px;
+    font-size: 9pt;
 }
 
-.notTagged {
-    border-left: 6px SOLID #ffffff;
+.events ul li.future .comments textarea, .events ul li.future .comments .comment {
+    background-color: #F5F5F5;
+    border-bottom-width: 0;
+}
+
+.events ul li.future .comments .comment {
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.events ul li.future .comments textarea {
+    border: 1px solid #d5d5d5;
+}
+
+.events ul li.future .comments .comment:last-child {
+    border-bottom-width: 0;
+}
+
+.events ul li .comments textarea {
+    width: 100%;
+    height: 2em;
+    margin-top: 3px;
+}
+
+.events ul li .comments .comment .date {
+    color: #CCCCCC;
+}
+
+.events ul li a {
+    color: #FFC040;
+}
+
+.events ul li.future a {
+    color: #3053ff;
+}
+
+.events ul li .comments .content a {
+    color: #1040ff;
+}
+
+.now {
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 12px;
+    margin-top: 15px;
+    height: 4px;
+    background-color: #e5e5e5;
+    border-top: 1px solid #999999;
+    border-bottom: 1px solid #ffffff;
+}
+.now span {
+    position: relative;
+    top: -7px;
+    background-color: #ffffff;
+    color: #666666;
+    border-radius: 5px;
+    padding: 2px;
+    border: 1px solid #999999;
 }
 
 .events img {
@@ -223,21 +354,6 @@ h1 .titleText {
 
 pre {
     overflow: hidden;
-}
-
-.dateCategory {
-    text-align: center;
-    width: 80px;
-    float: left;
-    background-color: #f4dD78;
-    color: #000000;
-    padding: 2px;
-    font-size: 12px;
-    border-radius: 5px 5px 5px 5px;
-    box-shadow: 1px 3px 3px 1px #999999;
-    position: relative;
-    left: -8px;
-    top: 3px;
 }
 
 #contacts .title {

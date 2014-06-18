@@ -1,5 +1,17 @@
 @(email: String)
 
+<div id="eventFormFake" class="eventForm">Create new event</div>
+<div id="eventFormReal" class="eventForm">
+    <h1>Intention</h1>
+    <form method="post" action="/events/">
+        <input id="dateInput" tabindex="1" type="datetime" name="date" placeholder="dd/MM/yyyy HH:mm"><br>
+        <input id="titleInput" tabindex="2" name="title" placeholder="title for event"><br>
+        <input id="tagInput" tabindex="3" name="tag" placeholder="tag">
+        <input type="submit" tabindex="4" value="post">
+    </form>
+</div>
+
+
 <h1><span class="titleText">timeline for:</span> @email</h1>
 
 <div id="pageContent">

@@ -14,39 +14,21 @@
         <script src="/assets/javascripts/tagHighlighter.js" type="text/javascript"></script>
         <script src="/assets/javascripts/eventBindings.js" type="text/javascript"></script>
         <script src="/assets/javascripts/displayFunctions.js" type="text/javascript"></script>
-        <script src="/assets/javascripts/comment.js" type="text/javascript"></script>
+        <script src="/assets/javascripts/ajax.js" type="text/javascript"></script>
     </head>
     <body>
         <header>
             <a href="https://dl.dropboxusercontent.com/u/8073199/ergle-client-assembly-0.1-SNAPSHOT.jar">download client</a> |
-            <a href="/settings" class="header">settings</a> | <a href="/@email" class="header">@email</a></header>
+            <a href="/settings" class="header">settings</a> | <a href="/@email" class="header">@email</a>
+        </header>
         @content
     </body>
 
 
     <script>
-    $ ( document ).ready (function() {
-        loadFragments($(document));
-        highlightTags();
-        stackFileVersions();
-        hideDuplicateDateCategories();
-        bindEvents($(document));
-    }) ;
-
-
-    function loadFragments(context) {
-        $('.loadable', context).each(function () {
-            $(this).load($(this).attr('href'), function () {
-                $(this).removeClass("loadable");
-                loadFragments($(this));
-                //todo: this only needs to run once, use $.when() ?
-                highlightTags();
-                stackFileVersions();
-                hideDuplicateDateCategories();
-                bindEvents($(this));
-            });
-        });
-    }
+    $(document).ready(function() {
+        loadDocumentFragments();
+    });
     </script>
 
 </html>

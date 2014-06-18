@@ -6,7 +6,7 @@ function bindEvents(context) {
         }
     });
 
-    $(".events .comment textarea",context).keyup(function (e) {
+    $(".events .comments textarea",context).keyup(function (e) {
         while ($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
             $(this).height($(this).height() + 1);
         }
@@ -14,12 +14,38 @@ function bindEvents(context) {
         $("span", $(this).parent()).show()
     }).blur(function () {
         if (this.value == "") {
-            $("span", $(this).parent()).hide()
+            $("span.controls", $(this).parent()).hide()
         }
     });
 
-    $(".events .comment button",context).click(function () {
-        submitComment($(this).parents(".events .comment").find("textarea").val());
-    })
+    $(".events .comments button",context).click(function () {
+        submitComment($(this).parents(".events .comments").find("textarea"));
+    });
+
+    $(".events .comments textarea",context).keypress(function (event) {
+        var keyCode = (event.which ? event.which : event.keyCode);
+        if (keyCode === 10 || keyCode == 13 && event.ctrlKey) {
+            submitComment($(this));
+            return false;
+        }
+        return true;
+    });
+
+    $("#eventFormFake").click(function() {
+        $(this).hide();
+        $("#eventFormReal").show();
+    });
+
+    $(document).click(function(event) {
+        if (! ($(event.target).is(".eventForm, .eventForm input"))) {
+            $("#eventFormReal").hide();
+            $("#eventFormFake").show();
+        }
+    });
+
+    /*$("#eventForm button",context).click(function () {
+        submitEvent();
+        return false;
+    });*/
 }
 
