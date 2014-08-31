@@ -15,10 +15,11 @@ function highlightTags() {
 }
 
 function createCSS(top) {
-    var colours = ["#FFC040","#FFC0CB","#1e90ff","#259F40","#800080"];
+    var colours = ["#FFC040","#FF3030","#1e90ff","#259F40","#800080"];
     var result = "";
     for (var i = 0; i<top.length; i++) {
         result = result + "." + top[i] + " { background-color: " + colours[i] + " !important;}\n";
+        result = result + "ul.tagList span." + top[i] + " { border: 0; color: #ffffff; background-image:url('/assets/images/whiteTag.svg') !important;}\n";
     }
     return result;
 }

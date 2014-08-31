@@ -14,25 +14,30 @@ function submitComment(comment) {
     })
 }
 
-function submitEvent() {
-    $.post(
-        "/events/",
-        $("#eventForm").find("form").serialize()
-    ).done(function(data) {
-            alert(data);
-        });
+function loadDocumentFragments() {
+    loadAndProcess($(document));
 }
 
-function loadDocumentFragments() {
-    var promises = loadFragments($(document));
+function loadAndProcess(context) {
+    var promises = loadFragments(context);
+    $.when(promises).done(function() {
+        processLoadedPage(context)
+    });
+}
 
-    $.when(promises).done(function () {
-        highlightTags();
+function processLoadedPage(context) {
+    var zoom = getParameterByName("zoom");
+    if (zoom=='day') {
+        categoriseByDay();
+        categoriseDaysByTag();
+        categoriseDayTagsByType();
+    } else {
         stackFileVersions();
         hideDuplicateDateCategories();
-        bindEvents($(document));
-        showNow($(document));
-    });
+    }
+    highlightTags();
+    bindEvents(context);
+    showNow(context);
 }
 
 function loadFragments(context) {
@@ -40,13 +45,13 @@ function loadFragments(context) {
         var self = $(this);
         var url = $(this).attr('href');
         if (url != '/wrapper') {
-            $.get(url, function (data) {
+            return $.get(url).done( function (data) {
                 self.html(data);
                 self.removeClass("loadable");
                 if (data == "") {
                     self.removeClass("body");
                 } else {
-                    loadFragments(self);
+                    loadAndProcess(self);
                 }
             });
         }

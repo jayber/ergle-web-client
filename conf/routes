@@ -3,20 +3,20 @@
 # ~~~~
 
 # Home page
-GET         /                               @controllers.erglewebclient.MainController.index(owner="")
-GET         /login                          @controllers.erglewebclient.MainController.showLogin
-POST        /login                          @controllers.erglewebclient.MainController.login
+GET         /                                                                                 @controllers.erglewebclient.MainController.index(owner="")
+GET         /login                                                                            @controllers.erglewebclient.MainController.showLogin
+POST        /login                                                                            @controllers.erglewebclient.MainController.login
 
-GET         /settings                       @controllers.erglewebclient.SettingsController.show
-POST        /settings                       @controllers.erglewebclient.SettingsController.save
-GET         /removeSetting                  @controllers.erglewebclient.SettingsController.remove
+GET         /settings                                                                         @controllers.erglewebclient.SettingsController.show
+POST        /settings                                                                         @controllers.erglewebclient.SettingsController.save
+GET         /removeSetting                                                                    @controllers.erglewebclient.SettingsController.remove
 
-GET         /timelines/:owners              @controllers.erglewebclient.MainController.multipleTimelines(owners)
-GET         /:owner                         @controllers.erglewebclient.MainController.index(owner)
+GET         /timelines/$owners<[^@&/]+@[^/&@]+(/[^/&]+)?(&[^@&/]+@[^/&@]+(/[^/&]+)?)*>        @controllers.erglewebclient.MainController.multipleTimelines(owners)
+GET         /$owner<[^@&/]+@[^/&@]+(/[^/&]+)?>                                                @controllers.erglewebclient.MainController.index(owner)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                   controllers.erglewebclient.Assets.at(path="/public", file)
+GET         /assets/*file                                                                     controllers.erglewebclient.Assets.at(path="/public", file)
 
-GET         /virtualcss.js/*csspath         virtualcss.VirtualCssController.virtualCssJs(csspath)
-GET         /virtualcss.css/*csspath        virtualcss.VirtualCssController.virtualCss(csspath)
+GET         /virtualcss.js/*csspath                                                           virtualcss.VirtualCssController.virtualCssJs(csspath)
+GET         /virtualcss.css/*csspath                                                          virtualcss.VirtualCssController.virtualCss(csspath)

@@ -1,4 +1,4 @@
-@(title: String, email: String, content: Html)
+@(title: String, email: String, content: Html, zoom: String = "details")
 
 <!DOCTYPE html>
 
@@ -15,20 +15,54 @@
         <script src="/assets/javascripts/eventBindings.js" type="text/javascript"></script>
         <script src="/assets/javascripts/displayFunctions.js" type="text/javascript"></script>
         <script src="/assets/javascripts/ajax.js" type="text/javascript"></script>
+
+        <link rel="stylesheet" type="text/css" href="/assets/stylesheets/jquery.datetimepicker.css">
+        <script src="/assets/javascripts/jquery.datetimepicker.js"></script>
     </head>
     <body>
         <header>
-            <a href="https://dl.dropboxusercontent.com/u/8073199/ergle-client-assembly-0.1-SNAPSHOT.jar">download client</a> |
-            <a href="/settings" class="header">settings</a> | <a href="/@email" class="header">@email</a>
+            <div class="dropdown" id="appsDropdown">
+                <a href="#" class="action">Timeline</a>
+                <div id="apps" class="dropdownContent"><h1>Apps</h1>
+                    <a href="">Project manager (coming soon!)</a>
+                    <a href="">Timeline</a>
+                </div>
+            </div>
+            <div class="dropdown" id="contactsDropdown">
+                <a href="#" class="action">contacts</a>
+                <div class="dropdownContent"><slot></slot></div>
+            </div>
+            <a href="/@email" class="action">@email</a>
+            <a href="/settings" class="action">settings</a>
+            <a class="action" href="https://dl.dropboxusercontent.com/u/8073199/ergle-client-assembly-0.1-SNAPSHOT.jar">
+                download client</a>
         </header>
+        <nav>
+            <span>zoom +/-</span><a href="?"
+                @if(zoom == "details") {class="selected"}>
+                details</a>
+            <a href="?zoom=day"
+                @if(zoom == "day") {class="selected"}>
+                day</a>
+            <a href="?zoom=week"
+                @if(zoom == "week") {class="selected"}>
+                week</a>
+        </nav>
+        <section>
         @content
+        </section>
+
     </body>
 
 
     <script>
-    $(document).ready(function() {
-        loadDocumentFragments();
-    });
+    $ ( document ).ready ( function ( ) {
+    loadDocumentFragments ( ) ;
+    } ) ;
+    </script>
+
+    <script>
+    $ ( '.datetimepicker' ).datetimepicker ( ) ;
     </script>
 
 </html>

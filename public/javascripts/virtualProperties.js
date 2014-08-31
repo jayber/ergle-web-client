@@ -1,6 +1,15 @@
 definitions = {
     layout: function (elem, args) {
-        elem.children().css('float', 'left');
+        var direction = 'left';
+        if (args == 'flow-horizontal-right') {
+            direction = 'right';
+        }
+        elem.children().each(function () {
+            if($(this).css('float')=='none') {
+                $(this).css('float', direction)
+            }
+        });
+        elem.append('<div style=\'clear: both\'></div>')
     },
     position: function (elem, args) {
         if (args == 'fixed') {

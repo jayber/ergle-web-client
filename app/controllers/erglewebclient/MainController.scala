@@ -20,7 +20,8 @@ class MainController extends Controller with ControllerUtils{
     val ownerEmails = owners.split('&')
     getEmail match {
       case Some(email) =>
-        Ok(views.html.template("ergle", email, views.html.multiple(ownerEmails)))
+        val zoom = request.getQueryString("zoom").getOrElse("details")
+        Ok(views.html.template("ergle", email, views.html.multiple(ownerEmails), zoom))
       case _ =>
           Redirect("/login")
 
@@ -28,19 +29,19 @@ class MainController extends Controller with ControllerUtils{
   }
 
   def index(owner: String) = Action.async {
-    def ownerMatch(email: String): Future[SimpleResult] = {
+    def ownerMatch(email: String, request: Request[AnyContent]): Future[SimpleResult] = {
       owner match {
         case "" =>
           Future {
             Redirect("/" + email)
           }
-        case _ => indexWithEntries(email, owner)
+        case _ => indexWithEntries(email, owner, request)
       }
     }
 
     implicit request: Request[AnyContent] =>
       getEmail match {
-        case Some(email) => ownerMatch(email)
+        case Some(email) => ownerMatch(email, request)
         case _ =>
           Future {
             Redirect("/login")
@@ -48,18 +49,22 @@ class MainController extends Controller with ControllerUtils{
       }
   }
 
-  def indexWithEntries(email: String, owner: String): Future[SimpleResult] = Future {
-    Ok(views.html.template("ergle", email, views.html.main(owner)))
+  def indexWithEntries(email: String, owner: String, request: Request[AnyContent]): Future[SimpleResult] = Future {
+    val zoom = request.getQueryString("zoom").getOrElse("details")
+    println("zoom="+zoom)
+    Ok(views.html.template("ergle", email, views.html.main(owner), zoom))
   }
 
-  def showLogin = Action {
+  def showLogin = Action { request =>
 
     val emailForm = Form(
       single(
         "email" -> email
       )
     )
-    Ok(views.html.template("login", "", views.html.login(emailForm, "")))
+
+    val zoom = request.getQueryString("zoom").getOrElse("details")
+    Ok(views.html.template("login", "", views.html.login(emailForm, ""), zoom))
   }
 
   def login = Action {
@@ -70,10 +75,11 @@ class MainController extends Controller with ControllerUtils{
           "email" -> email
         )
       )
+      val zoom = request.getQueryString("zoom").getOrElse("details")
 
       emailForm.bindFromRequest().fold(
         formWithErrors => {
-          BadRequest(views.html.template("login error", "", views.html.login(emailForm, "invalid email address")))
+          BadRequest(views.html.template("login error", "", views.html.login(emailForm, "invalid email address"), zoom))
         },
         userData => {
           //          loginService.login(userData)

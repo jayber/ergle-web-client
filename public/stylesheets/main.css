@@ -3,6 +3,10 @@ input::-moz-focus-inner {
     padding: 0
 }
 
+textarea:focus, input:focus {
+    outline: 0;
+}
+
 textarea {
     box-sizing: border-box;
     display: block;
@@ -20,14 +24,6 @@ html {
     background-color: #f3f3f3;
 }
 
-#pageContent {
-    clear: both;
-}
-
-.clear {
-    clear: both;
-}
-
 a {
     text-decoration: none;
     color: inherit;
@@ -37,46 +33,192 @@ a:hover {
     text-decoration: underline;
 }
 
+.clear {
+    clear: both;
+}
+
 ul {
     list-style-type: none;
 }
 
-body {
+body > section {
     margin: 5px;
 }
 
 header {
-    margin-bottom: 10px;
-    float: right;
-    text-align: right;
-    padding: 2px;
+    display: block;
+    background-color: #ffffff;
+    border-bottom: 1px solid #cccccc;
+    text-align: left;
+    layout: flow-horizontal-right;
 }
 
-a.header {
-    color: #CCCCCC;
+header .action {
+    padding: 10px;
+    border-left: 1px solid #cccccc;
+    display: block;
+}
+
+header .dropdown {
+    float: left;
+}
+
+header .dropdown .action, header .dropdown.action {
+    padding-right: 18px;
+    margin-right: 10px;
+    background-image: url('/assets/images/downarrow.svg');
+    background-repeat: no-repeat;
+    background-size: 15px;
+    background-position: right center;
+}
+
+.dropdownContent {
+    background-color: #ffffff;
+    position: absolute;
+    padding: 0 10px 10px;
+    display: none;
+    z-index: 10;
+    border: 1px solid #cccccc;
+    border-radius: 0 0 3px 3px;
+    border-top: 0;
+}
+
+#apps a {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#contacts .info {
+    display: block;
+    color: #999999;
+    font-size: 9px;
+}
+
+#contactList a {
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+nav {
+    background-color: #ffffff;
+    border-bottom: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    display: block;
+    float: right;
+}
+
+nav a {
+    border-right: 1px solid #cccccc;
+}
+
+nav a, nav span {
+    display: block;
+    padding: 10px;
+    float: left;
+}
+
+nav a:last-child {
+    border-right: 0 none;
+}
+
+nav a.selected {
+    background-color: #f3f3f3;
 }
 
 .eventForm {
     background-color: #ffffff;
-    width: 400px;
-    border: 1px solid #999999;
-    font-size: 9pt;
-    color: #999999;
-    padding: 5px;
+    width: 500px;
+    border: 1px solid #cccccc;
     margin: 10px 0;
+}
+
+.eventForm .post {
+    float: right;
+    margin: 6px 5px 3px;
+    background-color: #f3f3f3;
+    border-radius: 0;
+    border: 1px solid #cccccc;
+    padding: 2px;
+}
+
+#eventFormFake section {
+    float: left;
 }
 
 #eventFormReal {
     display: none;
 }
 
-#eventFormReal h1 {
+#eventFormReal .eventFormMenu {
+    background-color: #f3f3f3;
+    border-top: 1px solid #cccccc;
+    layout: flow-horizontal;
+}
+
+#eventFormReal .eventFormMenu a.intent {
+    background-image: url('/assets/images/calendar.svg');
+}
+
+#eventFormReal .eventFormMenu a.message {
+    background-image: url('/assets/images/message.svg');
+}
+
+#eventFormReal .eventFormMenu a {
+    padding: 10px;
+    border-right: 1px solid #cccccc;
+    display: block;
     font-size: 10pt;
+
+    background-position: 10px center;
+    background-repeat: no-repeat;
+    background-size: 15px;
+    padding-left: 30px;
+}
+
+#eventFormReal .eventFormMenu a.selected {
+    background-color: #ffffff;
+}
+
+.eventForm section {
+    padding: 5px;
+    float: left;
+}
+
+.eventForm .text {
+    width: 100%;
+}
+
+.eventForm .field, .eventForm .text {
+    border: 0;
+    margin: 5px;
+}
+
+.eventForm .field {
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 15px;
+    padding-left: 20px;
+}
+
+.eventForm .dateInput {
+    background-image: url('/assets/images/calendar.svg');
+}
+
+.eventForm .tagInput {
+    background-image: url('/assets/images/tag.svg');
+}
+
+.eventForm .shareToInput {
+    background-image: url('/assets/images/user.svg');
+}
+
+.eventForm textarea.text {
+    width: 430px;
+    height: 1.2em;
 }
 
 h1 {
     font-size: 1.5em;
-    font-weight: 300;
     line-height: 1em;
     margin-bottom: 10px;
     margin-top: 5px;
@@ -88,30 +230,8 @@ h1 .titleText {
     color: #999999;
 }
 
-.tabs {
-    layout: flow-horizontal;
-    width: 100%;
-}
-
-.tabs li {
-    width: 50%;
-    text-align: center;
-}
-
-.tabs a {
-    display: block;
-    background-color: #f5f5f5;
-    padding: 3px;
-    margin: 1px;
-}
-
 #container {
     layout: flow-horizontal;
-}
-
-#contacts {
-    width: 200px;
-    display: none;
 }
 
 .eventsContainer {
@@ -123,37 +243,89 @@ h1 .titleText {
     layoutConstraints: wgrow;
 }
 
-.eventsContainer >div {
+.eventsContainer > div {
     layoutConstraints: distribute;
 }
 
-.events ul.eventList >li {
+ul.dayList > li.dayTemplate {
+    background-color: #f3f3f3;
+    padding: 2px 1px 5px 1px;
+    position: relative;
+    border: 1px solid #ffffff;
+    border-width: 1px 1px 0 1px;
+}
+
+ul.dayList > li.dayTemplate, ul.dayList ul.eventList {
+    clear: both;
+}
+
+li.dayTemplate ul.eventList > li {
+    float: left;
+    width: 200px;
+    margin: 2px 0 0 2px;
+}
+
+ul.eventTypeList > li {
+    float: left;
+}
+
+ul.eventList > li {
     margin: 5px;
 }
 
-.events ul li .body, .versions {
+ul.eventList > li .body, .versions {
     padding: 0.25em 0.25em 0.25em 0.75em;
 }
 
-.events ul li .title {
+ul.eventList > li .title {
     display: block;
     padding-bottom: 8px;
     padding-top: 6px;
     padding-left: 2px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.events > ul.eventList > li .title {
     border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #e5e5e5;
 }
 
-.events ul li.future .title {
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #999999;
-    border-top: 1px solid #f5f5f5;
-}
-
-
-.events ul li div.defaultTag {
-    background-color: #f5f5f5;
+ul.eventList > li div.defaultTag, ul.tagList > li.defaultTag {
+    background-color: #ffffff;
     padding-left: 6px;
+}
+
+ul.tagList > li.defaultTag > div {
+    left: 0;
+    top: -4px;
+    padding-left: 6px;
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 0 5px 50px 0;
+    padding-top: 2px;
+}
+
+ul.tagList {
+    margin-top: 7px;
+}
+
+ul.tagList > li {
+    float: left;
+    background-color: #ffffff;
+    position: relative;
+    margin-left: 5px;
+}
+
+ul.tagList ul.eventTypeList {
+    background-color: #f3f3f3;
+}
+
+ul.dayList > li.dayTemplate .dateCategory {
+    display: block;
+    float: none;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 
 .dateCategory {
@@ -175,38 +347,63 @@ h1 .titleText {
     background-color: #aabbFF;
 }
 
-.events ul li .eventType {
+ul.eventList > li .eventType, ul.eventTypeList > li > div {
     font-weight: bold;
     background-repeat: no-repeat;
     background-size: 15px;
     padding-left: 20px;
 }
 
-.intent {
-    background-image:url('/assets/images/calendar.svg');
-}
-
-.email {
-    background-image:url('/assets/images/mail.svg');
-}
-
-.file {
-    background-image:url('/assets/images/clip.svg');
-}
-
-.events ul li div {
+ul.eventTypeList > li > div {
     background-color: #ffffff;
+    background-position: right 5px center;
+    margin-left: 2px;
+    padding: 5px 25px 5px 5px;
+    text-align: right;
 }
 
-.events ul li.future div {
-    background-color: #f5f5f5;
+ul.eventList > li span.message, ul.eventTypeList > li > div.message {
+    background-image: url('/assets/images/message.svg');
+}
+
+ul.eventList > li span.intent, ul.eventTypeList > li > div.intent {
+    background-image: url('/assets/images/calendar.svg');
+}
+
+ul.eventList > li span.email, ul.eventTypeList > li > div.email {
+    background-image: url('/assets/images/mail.svg');
+}
+
+ul.eventList > li span.file, ul.eventTypeList > li > div.file {
+    background-image: url('/assets/images/clip.svg');
+}
+
+ul.eventList > li .tag, ul.tagList > li .tag {
+    background-image: url('/assets/images/tag.svg');
+    background-repeat: no-repeat;
+    background-size: 15px;
+    padding-left: 20px;
+}
+
+ul.tagList li .tag {
+    border: 1px #e5e5e5;
+    border-style: none solid solid none;
+    background-color: #ffffff;
+    border-radius: 0 5px 50px 0;
+    background-position: 8px 3px;
+    padding: 2px 13px 2px 27px;
+    min-width: 38px;
+}
+
+ul.eventList > li div {
+    background-color: #ffffff;
 }
 
 .sheaf {
     display: block;
 }
 
-.events ul li .versions {
+ul.eventList > li .versions {
     margin-left: 6px;
     border-bottom: 1px solid #e5e5e5;
     border-left: 1px solid #e5e5e5;
@@ -215,41 +412,46 @@ h1 .titleText {
     font-size: 8pt;
 }
 
-.events ul li .versions2 {
+ul.eventList > li .versions2 {
     margin-left: 12px;
     border-top: none;
     clear: both;
 }
 
-.events ul li .versions .left {
+ul.eventList > li .versions .left {
     float: left;
 }
 
-.events ul li .versions .right {
+ul.eventList > li .versions .right {
     float: right;
 }
 
-.events ul li .comments {
+ul.eventList > li .comments {
     margin: 0 0 8px 6px;
-    background-color: #f5f5f5;
+    background-color: #f3f3f3;
 }
 
-.events ul li .comments button {
+ul.tagList ul.eventList > li .comments {
+    margin: 1px 0 0 0;
+    background-color: #ffffff;
+}
+
+ul.eventList > li .comments button {
     background-color: #ffffff;
     border: 1px solid #e5e5e5;
     color: inherit;
     padding: 3px;
 }
 
-.events ul li .comments button:hover {
+ul.eventList > li .comments button:hover {
     background-color: #eeeeee;
 }
 
-.events ul li .comments button:active {
+ul.eventList > li .comments button:active {
     background-color: #dddddd;
 }
 
-.events ul li .comments span.controls {
+ul.eventList > li .comments span.controls {
     float: right;
     font-size: 9pt;
     margin-top: 2px;
@@ -257,72 +459,50 @@ h1 .titleText {
     color: #999999;
 }
 
-.events ul li .comments textarea, .events ul li .comments .comment {
+ul.eventList > li .comments textarea, ul.eventList > li .comments .comment {
     padding: 0.3em;
     background-color: #ffffff;
     color: inherit;
-    border: 0 solid #F5F5F5;
+    border: 0 solid #f3f3f3;
     border-top-width: 1px;
     font-size: 9pt;
 }
 
-.events ul li.future .comments textarea, .events ul li.future .comments .comment {
-    background-color: #F5F5F5;
-    border-bottom-width: 0;
-}
-
-.events ul li.future .comments .comment {
-    border-bottom: 1px solid #d5d5d5;
-}
-
-.events ul li.future .comments textarea {
-    border: 1px solid #d5d5d5;
-}
-
-.events ul li.future .comments .comment:last-child {
-    border-bottom-width: 0;
-}
-
-.events ul li .comments textarea {
+ul.eventList > li .comments textarea {
     width: 100%;
     height: 2em;
     margin-top: 3px;
 }
 
-.events ul li .comments .comment .date {
+ul.eventList > li .comments .date {
     color: #CCCCCC;
 }
 
-.events ul li a {
+ul.eventList > li a {
     color: #FFC040;
 }
 
-.events ul li.future a {
-    color: #3053ff;
+ul.eventList > li .comments .content a {
+    color: #1040ff;
 }
 
-.events ul li .comments .content a {
-    color: #1040ff;
+ul.eventList pre.message {
+    font-family: inherit;
+    white-space: pre-wrap;
 }
 
 .now {
     text-align: center;
-    border-radius: 5px;
+    margin-top: 5px;
     margin-bottom: 12px;
-    margin-top: 15px;
-    height: 4px;
-    background-color: #e5e5e5;
-    border-top: 1px solid #999999;
-    border-bottom: 1px solid #ffffff;
+    color: #bbbbbb;
+    border-bottom: 2px solid #bbbbbb;
+    padding-bottom: 2px;
 }
-.now span {
-    position: relative;
-    top: -7px;
-    background-color: #ffffff;
-    color: #666666;
-    border-radius: 5px;
-    padding: 2px;
-    border: 1px solid #999999;
+
+ul.dayList .now {
+    border-top: 1px solid #ffffff;
+    margin-top: 0;
 }
 
 .events img {
@@ -338,7 +518,7 @@ h1 .titleText {
     font-weight: bold;
 }
 
-.events ul li.emptyMessage  {
+ul.eventList > li.emptyMessage {
     color: #999999;
     font-size: 1.5em;
 }
@@ -356,25 +536,8 @@ pre {
     overflow: hidden;
 }
 
-#contacts .title {
-    display: block;
-    border-bottom: 1px SOLID #000000;
-    color: #000000;
-}
-
-#contacts .info {
-    display: block;
-    color: #999999;
-    font-size: 9px;
-}
-
-
 @media screen and (min-width: 500px) {
     .tabs {
         display: none;
-    }
-
-    #contacts {
-        display: block;
     }
 }
