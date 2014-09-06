@@ -21,7 +21,7 @@ class MainController extends Controller with ControllerUtils{
     getEmail match {
       case Some(email) =>
         val zoom = request.getQueryString("zoom").getOrElse("details")
-        Ok(views.html.template("ergle", email, views.html.multiple(ownerEmails), zoom))
+        Ok(views.html.template("ergle - "+owners, email, views.html.multiple(ownerEmails, request.rawQueryString), zoom))
       case _ =>
           Redirect("/login")
 
@@ -52,7 +52,7 @@ class MainController extends Controller with ControllerUtils{
   def indexWithEntries(email: String, owner: String, request: Request[AnyContent]): Future[SimpleResult] = Future {
     val zoom = request.getQueryString("zoom").getOrElse("details")
     println("zoom="+zoom)
-    Ok(views.html.template("ergle", email, views.html.main(owner), zoom))
+    Ok(views.html.template("ergle - "+owner, email, views.html.main(owner, request.rawQueryString), zoom))
   }
 
   def showLogin = Action { request =>

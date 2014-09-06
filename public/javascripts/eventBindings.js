@@ -2,17 +2,21 @@ function bindEvents(context) {
 
     $(".dropdown", context).hover(function () {
         $(".dropdownContent").hide();
-        $(".dropdownContent",$(this)).show();
+        $(".dropdownContent", $(this)).show();
     });
 
-    $("#contacts",context).find("a").click(function (e) {
+    $("#contacts", context).find("a").click(function (e) {
         if (e.ctrlKey) {
-            window.location.href = window.location.href + "&" + $(this).attr("href").substr(1);
+            var pathname = window.location.pathname;
+            var uri = $(this).attr("href");
+            var queryN = uri.indexOf("?");
+            uri = queryN == -1 ? uri.substr(1) : uri.substr(1, queryN-1);
+            window.location.href = pathname + "&" + uri + window.location.search;
             return false;
         }
     });
 
-    $(".events .comments textarea, .eventForm textarea.text",context).keyup(function (e) {
+    $(".events .comments textarea, .eventForm textarea.text", context).keyup(function (e) {
         while ($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
             $(this).height($(this).height() + 1);
         }
@@ -26,11 +30,11 @@ function bindEvents(context) {
         }
     });
 
-    $(".events .comments button",context).click(function () {
+    $(".comments button", context).click(function () {
         submitComment($(this).parents(".events .comments").find("textarea"));
     });
 
-    $(".events .comments textarea",context).keypress(function (event) {
+    $(".comments textarea", context).keypress(function (event) {
         var keyCode = (event.which ? event.which : event.keyCode);
         if (keyCode === 10 || keyCode == 13 && event.ctrlKey) {
             submitComment($(this));
@@ -39,7 +43,7 @@ function bindEvents(context) {
         return true;
     });
 
-    $("#eventFormFake").click(function() {
+    $("#eventFormFake").click(function () {
         $(this).hide();
         var eventFormReal = $("#eventFormReal");
         eventFormReal.show();
@@ -54,27 +58,27 @@ function bindEvents(context) {
         return false;
     });
 
-    $(document).click(function(event) {
-        if ((! ($(event.target).is(".eventForm, .eventForm input, .eventForm textarea, .eventFormMenu a"))) &&
+    $(document).click(function (event) {
+        if ((!($(event.target).is(".eventForm, .eventForm input, .eventForm textarea, .eventFormMenu a"))) &&
             fieldsAreEmpty()) {
             $("#eventFormReal").hide();
             $("#eventFormFake").show();
         }
 
-        if (! ($(event.target).is(".dropdown, .dropdownContent"))) {
+        if (!($(event.target).is(".dropdown, .dropdownContent"))) {
             $(".dropdownContent").hide();
         }
     });
 
     /*$("#eventForm button",context).click(function () {
-        submitEvent();
-        return false;
-    });*/
+     submitEvent();
+     return false;
+     });*/
 }
 
 function fieldsAreEmpty() {
     var empty = true;
-    $(".eventForm .field, .eventForm .text").each( function(){
+    $(".eventForm .field, .eventForm .text").each(function () {
         empty = $(this).val() == "" && empty;
     });
     return empty;
@@ -83,8 +87,8 @@ function fieldsAreEmpty() {
 function showCorrectFields() {
     var type;
     var eventForm = $("#eventFormReal");
-    eventForm.find("section").css("display","none");
-    eventForm.find("input").attr("disabled",true);
+    eventForm.find("section").css("display", "none");
+    eventForm.find("input").attr("disabled", true);
     var fieldsSection;
     if ($("div.eventFormMenu a.selected").is(".intent")) {
         fieldsSection = $("#intentFields");
@@ -94,7 +98,7 @@ function showCorrectFields() {
         type = "message";
     }
     $("#typeField").val(type).removeAttr("disabled");
-    fieldsSection.css("display","block");
+    fieldsSection.css("display", "block");
     fieldsSection.children().removeAttr("disabled");
     fieldsSection.children().first().focus();
 }

@@ -240,16 +240,20 @@ h1 .titleText {
 }
 
 .events {
-    layoutConstraints: wgrow;
+    width: 100%;
 }
 
 .eventsContainer > div {
     layoutConstraints: distribute;
 }
 
+.events > .eventList.loadable {
+    display: none;
+}
+
 ul.dayList > li.dayTemplate {
     background-color: #f3f3f3;
-    padding: 2px 1px 5px 1px;
+    padding: 2px 5px 5px 0;
     position: relative;
     border: 1px solid #ffffff;
     border-width: 1px 1px 0 1px;
@@ -274,14 +278,18 @@ ul.eventList > li {
 }
 
 ul.eventList > li .body, .versions {
-    padding: 0.25em 0.25em 0.25em 0.75em;
+    padding: 0.25em 0.25em 0.25em 5px;
+}
+
+ul.tagList ul.eventList > li .body {
+    max-height: 350px;
 }
 
 ul.eventList > li .title {
     display: block;
     padding-bottom: 8px;
     padding-top: 6px;
-    padding-left: 2px;
+    padding-left: 5px;
     border-bottom: 1px solid #f3f3f3;
 }
 
@@ -291,8 +299,15 @@ ul.eventList > li .title {
 }
 
 ul.eventList > li div.defaultTag, ul.tagList > li.defaultTag {
-    background-color: #ffffff;
     padding-left: 6px;
+}
+
+ul.eventList > li div.defaultTag {
+    background-color: #f3f3f3;
+}
+
+ul.tagList > li.defaultTag {
+    background-color: #ffffff;
 }
 
 ul.tagList > li.defaultTag > div {
@@ -306,7 +321,6 @@ ul.tagList > li.defaultTag > div {
 }
 
 ul.tagList {
-    margin-top: 7px;
 }
 
 ul.tagList > li {
@@ -314,6 +328,7 @@ ul.tagList > li {
     background-color: #ffffff;
     position: relative;
     margin-left: 5px;
+    margin-top: 7px;
 }
 
 ul.tagList ul.eventTypeList {
@@ -390,13 +405,21 @@ ul.tagList li .tag {
     border-style: none solid solid none;
     background-color: #ffffff;
     border-radius: 0 5px 50px 0;
-    background-position: 8px 3px;
-    padding: 2px 13px 2px 27px;
+    background-position: 3px 3px;
+    padding: 2px 13px 2px 22px;
     min-width: 38px;
 }
 
 ul.eventList > li div {
     background-color: #ffffff;
+}
+
+a.block {
+    color: inherit;
+}
+
+a.block:hover {
+    text-decoration: none;
 }
 
 .sheaf {
@@ -434,6 +457,7 @@ ul.eventList > li .comments {
 ul.tagList ul.eventList > li .comments {
     margin: 1px 0 0 0;
     background-color: #ffffff;
+    padding: 5px;
 }
 
 ul.eventList > li .comments button {
@@ -478,8 +502,22 @@ ul.eventList > li .comments .date {
     color: #CCCCCC;
 }
 
-ul.eventList > li a {
+ul.eventList > li .body a, ul.eventList > li .highlight, ul.eventList > li .comments a, .events > ul.eventList > li .title a {
     color: #FFC040;
+}
+
+ul.tagList ul.eventList > li .title {
+     overflow: hidden;
+     text-overflow: clip;
+     white-space: nowrap;
+ }
+
+ul.eventList > li .time {
+    padding-left: 14px;
+    background-image: url('/assets/images/clock.svg');
+    background-repeat: no-repeat;
+    background-size: 15px;
+    background-position: -2px center;
 }
 
 ul.eventList > li .comments .content a {

@@ -1,14 +1,28 @@
+function firstFiveTags() {
+    var tagClasses = $("[class*='tag_']").map(function() {
+            var classValue = $(this).attr("class");
+            if (classValue.indexOf(" ")>-1) {
+                return classValue.split(" ")[1];
+            } else {
+                return classValue;
+            }
+        }
+    ).toArray();
 
-function highlightTags() {
-    var tags = tagsOrderedByFrequency();
+    var uniques = [];
 
-    var top;
-    if (tags.length>4) {
-        top = tags.slice(0,5);
-    } else {
-        top = tags;
+    for (var i=0;i<tagClasses.length;i++) {
+        if ($.inArray(tagClasses[i], uniques) == -1) {
+            uniques[uniques.length] = tagClasses[i];
+        }
     }
 
+    var finalIndex =  uniques.length < 5 ? uniques.length : 5;
+    return uniques.slice(0, finalIndex);
+}
+
+function highlightTags() {
+    var top = firstFiveTags();
     var css = createCSS(top);
 
     setTagStyles(css);
@@ -45,35 +59,4 @@ function setTagStyles(css) {
         styleElem.innerHTML = css;
     }
 
-}
-
-function tagsOrderedByFrequency() {
-    var tagClasses = $("[class*='tag_']").map(function() {
-            var classValue = $(this).attr("class");
-            if (classValue.indexOf(" ")>-1) {
-                return classValue.split(" ")[1];
-            } else {
-                return classValue;
-            }
-        }
-    );
-    var tagCountMap = {};
-    tagClasses.each(function() {
-        if (this in tagCountMap) {
-            tagCountMap[this] = tagCountMap[this] +1;
-        } else {
-            tagCountMap[this] = 1;
-        }
-    });
-
-    var tagNames = [];
-    var i =0;
-    for (var key in tagCountMap) {
-        if (tagCountMap.hasOwnProperty(key)) {
-            tagNames[i++] = key;
-        }
-    }
-    return tagNames.sort(function(a,b) {
-        return tagCountMap[b] - tagCountMap[a];
-    })
 }

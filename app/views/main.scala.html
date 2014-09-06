@@ -1,4 +1,4 @@
-@(email: String)
+@(email: String, queryString: String)
 
 <div id="eventFormFake" class="eventForm">
     <section>
@@ -10,7 +10,7 @@
 
 <div id="eventFormReal" class="eventForm">
 
-        <form method="post" action="/events/">
+        <form method="post" action="/events/?@queryString">
             <input id="typeField" type="hidden" name="type">
             <section id="messageFields">
                 <textarea class="text titleInput" tabindex="1" name="message" placeholder="enter message"></textarea>
@@ -43,18 +43,16 @@
 
 
 <div id="container">
-    <slot></slot>
+
+    <div class="events">
+        <ul class="loadable" href="/events/@email?@queryString">
+            <div style='clear:both;'></div>
+        </ul>
+
+        <ul class="eventList empty">
+            <li class="emptyMessage">Your work here</li>
+        </ul>
+    </div>
+
 </div>
 
-<script>
-$ ( document ).ready ( function ( ) {
-$ ( '.tabs #timelineTab' ).click ( function ( ) {
-$ ( '#files' ).css ( 'display', 'block' ) ;
-$ ( '#contacts' ).css ( 'display', 'none' ) ;
-} ) ;
-$ ( '.tabs #contactsTab' ).click ( function ( ) {
-$ ( '#contacts' ).css ( 'display', 'block' ) ;
-$ ( '#files' ).css ( 'display', 'none' ) ;
-} ) ;
-} ) ;
-</script>

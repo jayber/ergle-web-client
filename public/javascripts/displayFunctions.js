@@ -1,67 +1,40 @@
-function categoriseByDay() {
-    $(".events").each(function () {
-        var currentCategoryName;
-        var dayElement;
-        $(".events ul.dayList > li[day]").each(function () {
-            var day = $(this).attr("day");
-            if (day != currentCategoryName) {
-                $(this).wrap("<li class='dayTemplate "+$(this).attr("class")+"'><ul class='tagList'></ul></li>");
-                currentCategoryName = day;
-                dayElement = $(this).parent();
-                dayElement.before("<span class='dateCategory'>"+day+"</span>");
-            } else {
-                dayElement.append(this);
-            }
-        });
-    });
-    $("li.dayTemplate ul.tagList").append("<div style='clear:both;'></div>");
+function getDayCategory(context, element) {
+    var day = element.attr("day");
+    var dayElement = context.find("li[day=\"" + day + "\"]");
+    if (dayElement.size()==0) {
+        dayElement = $($.parseHTML("<li day=\"" + day + "\" class='dayTemplate " + element.attr("class") + "'><span class='dateCategory'>" + day + "</span><ul class='tagList'><div style='clear:both;'></div></ul></li>"));
+        context.children().last().before(dayElement);
+    }
+    return dayElement.find("ul.tagList");
 }
 
-function categoriseDaysByTag() {
-    $(".events ul.dayList > li.dayTemplate").each(function () {
-        var tagCategories = {};
-        $(this).find("ul.tagList > li[tag]").each(function () {
-            var tag = $(this).attr("tag");
-            if (tag in tagCategories) {
-                tagCategories[tag].append(this);
-            } else {
-                var html = "<li";
-                if (tag != "") {
-                    html = html + " class='defaultTag tag_" +tag + "'";
-                }
-                html = html + "><ul class='eventTypeList'></ul></li>";
-                $(this).wrap(html);
-                if (tag != null && tag != "") {
-                    $(this).parents("li.defaultTag").prepend("<div class='tag_" +tag+"'><span class='tag tag_" +tag+"'>" + tag + "</span></div>");
-                }
-                tagCategories[tag] = $(this).parent();
-            }
-        });
-        var emptyTag = tagCategories[""];
-        if (emptyTag!=null) {
-            var parent = emptyTag.parent();
-            emptyTag.detach();
-            parent.prepend(emptyTag);
+function getTagCategory(context, element) {
+    var tag = element.attr("tag");
+    var tagElement = context.find("li[tag=" + tag + "]");
+    if (tagElement.size()==0) {
+        var html = "<li tag='"+tag+"' ";
+        if (tag != "") {
+            html = html + " class='defaultTag tag_" + tag + "'><div class='tag_" + tag + "'><span class='tag tag_" + tag + "'>" + tag + "</span></div";
         }
-    });
-    $("ul.tagList ul.eventList").append("<div style='clear:both;'></div>");
+        html = html + "><ul class='eventTypeList'><div style='clear:both;'></div></ul></li>";
+        tagElement = $($.parseHTML(html));
+        if (tag=="") {
+            context.prepend(tagElement);
+        } else {
+            context.children().last().before(tagElement);
+        }
+    }
+    return tagElement.find("ul.eventTypeList");
 }
 
-function categoriseDayTagsByType() {
-    $(".events ul.dayList > li.dayTemplate > ul.tagList > li").each(function () {
-        var typeCategories = {};
-        $(this).find(" ul.eventTypeList > li[eventtype]").each(function () {
-            var type = $(this).attr("eventtype");
-            if (type in typeCategories) {
-                typeCategories[type].append(this);
-            } else {
-                $(this).wrap("<li><ul class='eventList'></ul></li>");
-                $(this).parent().before("<div class='"+type+"'>"+type+"s</div>");
-                typeCategories[type] = $(this).parent();
-            }
-        });
-    });
-    $("ul.tagList ul.eventTypeList").append("<div style='clear:both;'></div>");
+function addElementToType(context, element) {
+    var type = element.attr("eventtype");
+    var typeElement = context.find("li[eventtype=" + type + "]");
+    if (typeElement.size()==0) {
+        typeElement = $($.parseHTML("<li eventtype='" + type + "'><div class='" + type + "'>" + type + "s</div><ul class='eventList'><div style='clear:both;'></div></ul></li>"));
+        context.children().last().before(typeElement);
+    }
+    typeElement.find("ul.eventList").children().last().before(element);
 }
 
 function hideDuplicateDateCategories() {
@@ -131,12 +104,16 @@ function unstackVersions(title, context) {
     hideDuplicateDateCategories();
 }
 
-function showNow(context) {
-    $(".events > ul.eventList", context).each(function () {
-        $(".future", $(this)).last().after("<div class=\"now\">coming up</div>")
+function showNow() {
+    $(".events > ul.eventList").each(function () {
+        if ($(".now", $(this)).size()==0) {
+            $(".future", $(this)).last().after("<div class=\"now\">coming up</div>");
+        }
     });
-    $(".events > ul.dayList", context).each(function () {
-        $(".future", $(this)).last().parents("ul.dayList > li").after("<div class=\"now\">coming up</div>")
+    $(".events > ul.dayList").each(function () {
+        if ($(".now", $(this)).size()==0) {
+            $(".future", $(this)).last().parents("ul.dayList > li").after("<div class=\"now\">coming up</div>");
+        }
     })
 }
 
@@ -145,4 +122,17 @@ function getParameterByName(name) {
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+function jumpToAnchor() {
+    var anchor = location.hash;
+    if (anchor!="") {
+        anchor = anchor.substr(1) ;
+        //seems crazy, but this is the nearest to making sure everything (including images) is loaded before scrolling,
+        //otherwise the offset will be wrong.
+        setTimeout(function(){
+            var top = document.getElementById(anchor).offsetTop;
+            window.scrollTo(0, top);
+        },500);
+    }
 }
