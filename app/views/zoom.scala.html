@@ -1,21 +1,22 @@
 @(owners: Array[String], queryString: String)
 
-<div id="container">
-    <div class="eventsContainer">
+<table id="container">
+    <thead>
+        <tr>
         @for(owner <- owners) {
-            <div>
+            <th>
                 <h1><span class="titleText">timeline for: </span> <a title="@owner" href="/@owner">@owner</a></h1>
-            </div>
+            </th>
         }
-    </div>
-    <div class="events">
-        <ul class="dayList">
+        </tr>
+    </thead>
+    <tbody class="dayList">
 
-        </ul>
-    </div>
-</div>
+    </tbody>
+
+</table>
 
 
 @for((owner, count) <- owners.zipWithIndex) {
-    <ul class="loadable" index="@count" size="@owners.size" href="/events/@owner?@queryString"></ul>
+    <ul class="timeline" index="@count" size="@owners.size" href="/events/@owner?@queryString"></ul>
 }

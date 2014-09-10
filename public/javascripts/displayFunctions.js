@@ -4,13 +4,17 @@ function getDayCategory(context, element) {
     var index = context.attr("index");
     var future = element.attr("class");
     var size = parseInt(context.attr("size"));
-    var dayElement = $(".events .dayList li[day=\"" + day + "\"]");
+    var dayElement = $(".dayList tr[day=\"" + day + "\"].dataRow");
+    var categoryTime = element.attr("categoryTime");
     if (dayElement.size()==0) {
-        var categoryTime = $.datepicker.parseDate("d M ''y", day).getTime();
-        var dayData = {categoryTime: categoryTime, day: day, future: future, cols: new Array(size), width : Math.floor(100/size)};
+        var cols = [{first:true, class: "even"}];
+        for (var i=1; i<size; i++) {
+            cols[i] = {first:false, class: i%2==1?"odd":"even"};
+        }
+        var dayData = {categoryTime: categoryTime, day: day, future: future, cols: cols, width : Math.floor(100/size)};
         dayElement = $(render("dayTemplate",dayData));
-        var elements = $(".events .dayList li.dayTemplate");
-        var parent = $(".events .dayList");
+        var elements = $(".dayList tr.dayTemplate.dataRow");
+        var parent = $(".dayList");
         insert(elements, categoryTime, dayElement, parent);
     }
     return dayElement.find("ul.tagList[index="+index+"]");
@@ -28,7 +32,7 @@ function insert(elements, time, element, parent) {
         if (i==elements.length - 1) {
             $(elements[i]).after(element);
         } else {
-            $(elements[i]).before(element);
+            $(elements[i]).prev().before(element);
         }
     } else {
         parent.prepend(element);

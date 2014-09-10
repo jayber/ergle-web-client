@@ -1,7 +1,16 @@
-<li categoryTime="{{categoryTime}}" day="{{day}}" class='dayTemplate {{future}}'>
-    <span class='dateCategory'>{{day}}</span>
+<tr categoryTime="{{categoryTime}}" day="{{day}}" class='headingRow dayTemplate {{future}}'>
     {{#each cols}}
-        <ul index='{{@index}}' class='tagList' style='width: {{../width}}%'>&nbsp;<div style='clear:both;'></div></ul>
+    {{#if first}}
+    <td class='dateCategory {{class}}'>{{../../day}}</td>
+    {{else}}
+    <td class='empty {{class}}'>&nbsp;</td>
+    {{/if}}
     {{/each}}
-    <div style='clear:both;'></div>
-</li>
+
+</tr>
+
+<tr categoryTime="{{categoryTime}}" day="{{day}}" class='dataRow dayTemplate {{future}}'>
+    {{#each cols}}
+        <td index='{{@index}}' style='width: {{../width}}%' class="{{class}}"><ul index='{{@index}}' class='tagList'>&nbsp;<div style='clear:both;'></div></ul></td>
+    {{/each}}
+</tr>

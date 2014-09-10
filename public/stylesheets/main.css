@@ -232,6 +232,7 @@ h1 .titleText {
 
 #container {
     clear: both;
+    width: 100%;
 }
 
 .eventsContainer {
@@ -246,12 +247,22 @@ h1 .titleText {
     display: none;
 }
 
-ul.dayList > li.dayTemplate {
-    background-color: #f3f3f3;
-    padding: 2px 5px 5px 0;
-    position: relative;
-    border: 1px solid #ffffff;
-    border-width: 1px 1px 0 1px;
+.dataRow.dayTemplate > td, th {
+    padding-bottom: 5px;
+    padding-right: 5px;
+    vertical-align: top;
+}
+
+.headingRow.dayTemplate {
+    border-top: 1px solid #ffffff;
+}
+
+td.odd, .odd ul.tagList ul.eventTypeList {
+    background-color: #eaeaea;
+}
+
+.even ul.tagList ul.eventTypeList {
+    background-color: #F5F5F5;
 }
 
 ul.dayList > li.dayTemplate, ul.dayList ul.eventList {
@@ -262,7 +273,7 @@ ul.tagList {
     float: left;
 }
 
-li.dayTemplate ul.eventList > li {
+.dayTemplate ul.eventList > li {
     float: left;
     width: 200px;
     margin: 2px 0 0 2px;
@@ -311,7 +322,7 @@ ul.tagList > li.defaultTag {
 
 ul.tagList > li.defaultTag > div {
     left: 0;
-    top: -4px;
+    top: -1px;
     padding-left: 6px;
     position: absolute;
     background-color: #ffffff;
@@ -330,13 +341,8 @@ ul.tagList > li {
     margin-top: 7px;
 }
 
-ul.tagList ul.eventTypeList {
-    background-color: #f3f3f3;
-}
-
-ul.dayList > li.dayTemplate .dateCategory {
+.dayList > .dayTemplate .dateCategory {
     display: block;
-    float: none;
     top: 0;
     left: 0;
     z-index: 1;
@@ -372,6 +378,7 @@ ul.eventTypeList > li > div {
     background-color: #ffffff;
     background-position: right 5px center;
     margin-left: 2px;
+    margin-top: 2px;
     padding: 5px 25px 5px 5px;
     text-align: right;
 }
@@ -501,7 +508,7 @@ ul.eventList > li .comments .date {
     color: #CCCCCC;
 }
 
-ul.eventList > li .body a, ul.eventList > li .highlight, ul.eventList > li .comments a, .events > ul.eventList > li .title a {
+ul.eventList > li .body a, ul.eventList > li .highlight, ul.eventList > li .comments a, ul.eventList > li .title a {
     color: #FFC040;
 }
 
@@ -542,7 +549,7 @@ ul.dayList .now {
     margin-top: 0;
 }
 
-.events img {
+.eventList img {
     max-width: 100%;
     max-height: 300px;
 }

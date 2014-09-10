@@ -53,7 +53,9 @@ definitions = {
             if (siblings>0) {
                 var width = 100 / (siblings + 1);
                 elem.css('width', width + '%');
+            } else {
+                elem.css('width', '100%');
             }
         }
     }
-}
+};

@@ -15,18 +15,34 @@ function submitComment(comment) {
 }
 
 function loadDocumentFragments() {
-    var promises = loadFragments($(document));
-    $.when.apply($, promises).then(function () {
-        if (getParameterByName("zoom") != "day") {
-            stackFileVersions();
-            hideDuplicateDateCategories();
-        }
-        highlightTags();
-        showNow();
-        jumpToAnchor();
+    var firstOnes = loadTimelines($(document));
+    firstOnes.done(function () {
+            var promises = loadLoadable($(document));
+            $.when.apply($, promises).always(function () {
+                if (getParameterByName("zoom") != "day") {
+                    stackFileVersions();
+                    hideDuplicateDateCategories();
+                }
+                highlightTags();
+                showNow();
+                jumpToAnchor();
+            });
     });
 
     bindEvents($(document));
+}
+
+function loadTimelines(context) {
+    var promise = $.Deferred().resolve();
+    $('.timeline', context).each(function () {
+        var timeline = $(this);
+        if (promise == "nothing") {
+            promise = loader(timeline);
+        } else {
+            promise = promise.then(function() {return loader(timeline)});
+        }
+    });
+    return promise;
 }
 
 function processNewData(context, data) {
@@ -49,28 +65,30 @@ function processNewData(context, data) {
     bindEvents(context);
 }
 
-function loadFragments(context) {
+function loadLoadable(context) {
     /* this creates a lot of ajax requests, which might not be good news for the server. Better to run all these
      * requests through one (web socket) connection?
      */
-    var promises = $('.loadable', context).map(function () {
-        var self = $(this);
-        var url = $(this).attr('href');
-        if (url != '/wrapper') {
-            return $.ajax({
-                url: url,
-                method: 'GET',
-                async: false
-            }).then(function (data) {
-                processNewData(self, data);
-                self.removeClass("loadable");
-                if (data == "") {
-                    self.removeClass("body");
-                }
-                return loadFragments(self);
-            });
-        }
+    return $('.loadable', context).map(function () {
+        return loader($(this))
     });
+}
 
-    return promises;
+function loader(context) {
+    var self = context;
+    var url = context.attr('href');
+    if (url != '/wrapper') {
+        return $.ajax({
+            url: url,
+            method: 'GET',
+            async: true
+        }).done(function (data) {
+            processNewData(self, data);
+            self.removeClass("loadable");
+            if (data == "") {
+                self.removeClass("body");
+            }
+            loadLoadable(context);
+        });
+    }
 }
