@@ -1,0 +1,41 @@
+@(content: Html, queryString: String)
+
+<div id="eventFormFake" class="eventForm">
+    <section>
+        <input class="text" tabindex="1" name="title" placeholder="create..."><br>
+    </section>
+    <button class="post" disabled>post</button>
+    <div class="clear"></div>
+</div>
+
+<div id="eventFormReal" class="eventForm">
+
+    <form method="post" action="/events/?@queryString">
+        <input id="typeField" type="hidden" name="type">
+        <section id="messageFields">
+            <textarea class="text titleInput" tabindex="1" name="message" placeholder="enter message"></textarea>
+
+            <input class="field tagInput" tabindex="2" name="tag" placeholder="enter tag">
+            <input class="field shareToInput" tabindex="3" name="shareTo" placeholder="email or hub"><br>
+        </section>
+
+        <section id="intentFields">
+            <input class="text titleInput" tabindex="1" name="title" placeholder="enter title"><br>
+
+            <input class="field tagInput" tabindex="2" name="tag" placeholder="enter tag">
+            <input class="field shareToInput" tabindex="3" name="shareTo" placeholder="email or hub"><br>
+            <input class="datetimepicker field dateInput" tabindex="4" type="datetime" name="date" placeholder="enter date/time">
+        </section>
+
+        <button class="post" type="submit" tabindex="5">post</button>
+
+    </form>
+    <div class="clear"></div>
+
+    <div class="eventFormMenu">
+        <a id="messageChoice" class="message selected" href="">message</a>
+        <a id="intentChoice" href="" class="intent">intent</a>
+    </div>
+</div>
+
+@content

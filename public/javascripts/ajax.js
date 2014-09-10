@@ -32,16 +32,12 @@ function loadDocumentFragments() {
 function processNewData(context, data) {
     var dom = $.parseHTML(data);
     $(dom).find("ul.dayList > li").each(function () {
-        $(".events > ul.loadable").addClass("dayList");
-        $(".events > ul.empty").hide();
         var day = getDayCategory(context, $(this));
         var tag = getTagCategory(day, $(this));
         addElementToType(tag, $(this));
     });
 
     $(dom).find("ul.eventList > li").each(function () {
-        $(".events > ul.loadable").addClass("eventList");
-        $(".events > ul.empty").hide();
         context.append($(this));
     });
 
@@ -61,7 +57,11 @@ function loadFragments(context) {
         var self = $(this);
         var url = $(this).attr('href');
         if (url != '/wrapper') {
-            return $.get(url).then(function (data) {
+            return $.ajax({
+                url: url,
+                method: 'GET',
+                async: false
+            }).then(function (data) {
                 processNewData(self, data);
                 self.removeClass("loadable");
                 if (data == "") {

@@ -1,0 +1,14 @@
+@(content: Html, zoom: String = "details")
+
+<nav>
+    <span>zoom +/-</span><a href="?"
+    @if(zoom == "details") {class="selected"}>
+                details</a>
+    <a href="?zoom=day"
+        @if(zoom == "day") {class="selected"}>
+                day</a>
+    <a href="?zoom=week"
+        @if(zoom == "week") {class="selected"}>
+                week</a>
+</nav>
+@withOutNav(content)

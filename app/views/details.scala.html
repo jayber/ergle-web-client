@@ -1,0 +1,23 @@
+@(owners: Array[String], queryString: String)
+
+
+<div id="container">
+    <div class="eventsContainer">
+        @for(owner <- owners) {
+            <div>
+                <h1><span class="titleText">timeline for: </span> <a title="@owner" href="/@owner">@owner</a></h1>
+            </div>
+        }
+    </div>
+    <div class="events">
+        <div class="eventsContainer">
+        @for(owner <- owners) {
+            <div>
+                <ul class="loadable eventList" href="/events/@owner?@queryString"></ul>
+            </div>
+        }
+        </div>
+    </div>
+</div>
+
+

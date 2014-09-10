@@ -1,23 +1,46 @@
+
 function getDayCategory(context, element) {
     var day = element.attr("day");
-    var dayElement = context.find("li[day=\"" + day + "\"]");
+    var index = context.attr("index");
+    var future = element.attr("class");
+    var size = parseInt(context.attr("size"));
+    var dayElement = $(".events .dayList li[day=\"" + day + "\"]");
     if (dayElement.size()==0) {
-        dayElement = $($.parseHTML("<li day=\"" + day + "\" class='dayTemplate " + element.attr("class") + "'><span class='dateCategory'>" + day + "</span><ul class='tagList'><div style='clear:both;'></div></ul></li>"));
-        context.children().last().before(dayElement);
+        var categoryTime = $.datepicker.parseDate("d M ''y", day).getTime();
+        var dayData = {categoryTime: categoryTime, day: day, future: future, cols: new Array(size), width : Math.floor(100/size)};
+        dayElement = $(render("dayTemplate",dayData));
+        var elements = $(".events .dayList li.dayTemplate");
+        var parent = $(".events .dayList");
+        insert(elements, categoryTime, dayElement, parent);
     }
-    return dayElement.find("ul.tagList");
+    return dayElement.find("ul.tagList[index="+index+"]");
+}
+
+function insert(elements, time, element, parent) {
+    var i = 0;
+    if (elements.length>0) {
+        var currentTime = parseInt($(elements[i]).attr("categoryTime"));
+        while (currentTime > time && i < elements.length - 1) {
+            i++;
+            currentTime = parseInt($(elements[i]).attr("categoryTime"));
+        }
+
+        if (i==elements.length - 1) {
+            $(elements[i]).after(element);
+        } else {
+            $(elements[i]).before(element);
+        }
+    } else {
+        parent.prepend(element);
+    }
 }
 
 function getTagCategory(context, element) {
     var tag = element.attr("tag");
     var tagElement = context.find("li[tag=" + tag + "]");
     if (tagElement.size()==0) {
-        var html = "<li tag='"+tag+"' ";
-        if (tag != "") {
-            html = html + " class='defaultTag tag_" + tag + "'><div class='tag_" + tag + "'><span class='tag tag_" + tag + "'>" + tag + "</span></div";
-        }
-        html = html + "><ul class='eventTypeList'><div style='clear:both;'></div></ul></li>";
-        tagElement = $($.parseHTML(html));
+        var tagData = {tag: tag, tagClass: "tag_"+tag, notEmpty: tag!=""};
+        tagElement = $(render("tagTemplate", tagData));
         if (tag=="") {
             context.prepend(tagElement);
         } else {
@@ -31,7 +54,8 @@ function addElementToType(context, element) {
     var type = element.attr("eventtype");
     var typeElement = context.find("li[eventtype=" + type + "]");
     if (typeElement.size()==0) {
-        typeElement = $($.parseHTML("<li eventtype='" + type + "'><div class='" + type + "'>" + type + "s</div><ul class='eventList'><div style='clear:both;'></div></ul></li>"));
+        var typeData = {type: type};
+        typeElement = $(render("eventTypeTemplate", typeData));
         context.children().last().before(typeElement);
     }
     typeElement.find("ul.eventList").children().last().before(element);
@@ -55,7 +79,7 @@ function hideDuplicateDateCategories() {
 }
 
 function stackFileVersions() {
-    $(".events").each(function () {
+    $(".eventList").each(function () {
         var latestVersionMap = {};
         var uniqueVersionMap = {};
         $("a.eventTitle", this).each(function () {
@@ -135,4 +159,29 @@ function jumpToAnchor() {
             window.scrollTo(0, top);
         },500);
     }
+}
+
+function render(tmpl_name, tmpl_data) {
+    if ( !render.tmpl_cache ) {
+        render.tmpl_cache = {};
+    }
+
+    if ( ! render.tmpl_cache[tmpl_name] ) {
+        var tmpl_dir = '/assets/client-templates';
+        var tmpl_url = tmpl_dir + '/' + tmpl_name + '.html';
+
+        var tmpl_string;
+        $.ajax({
+            url: tmpl_url,
+            method: 'GET',
+            async: false,
+            success: function(data) {
+                tmpl_string = data;
+            }
+        });
+
+        render.tmpl_cache[tmpl_name] = Handlebars.compile(tmpl_string);
+    }
+
+    return render.tmpl_cache[tmpl_name](tmpl_data);
 }

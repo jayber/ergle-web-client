@@ -4,6 +4,8 @@ import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
 import javax.inject.{Singleton, Named, Inject}
+import play.api.templates.{Html, HtmlFormat}
+
 import scala.concurrent.Future
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.Cookie
@@ -17,11 +19,9 @@ class MainController extends Controller with ControllerUtils{
 
   def multipleTimelines(owners: String) = Action { implicit request =>
 
-    val ownerEmails = owners.split('&')
     getEmail match {
       case Some(email) =>
-        val zoom = request.getQueryString("zoom").getOrElse("details")
-        Ok(views.html.template("ergle - "+owners, email, views.html.multiple(ownerEmails, request.rawQueryString), zoom))
+        renderWithNav(email, owners, request, false)
       case _ =>
           Redirect("/login")
 
@@ -50,21 +50,32 @@ class MainController extends Controller with ControllerUtils{
   }
 
   def indexWithEntries(email: String, owner: String, request: Request[AnyContent]): Future[SimpleResult] = Future {
+    renderWithNav(email, owner, request, showForm = true)
+  }
+
+  def renderWithNav(email: String, ownersStr: String, request: Request[AnyContent], showForm: Boolean): SimpleResult = {
+    val owners = ownersStr.split('&')
     val zoom = request.getQueryString("zoom").getOrElse("details")
-    println("zoom="+zoom)
-    Ok(views.html.template("ergle - "+owner, email, views.html.main(owner, request.rawQueryString), zoom))
+    def getContent: Html = {
+      zoom match {
+        case "details" => views.html.details(owners, request.rawQueryString)
+        case _ => views.html.zoom(owners, request.rawQueryString)
+      }
+    }
+    val content = showForm match {
+      case true => views.html.withCreateForm(getContent, request.rawQueryString)
+      case false => getContent
+    }
+    Ok(views.html.template("ergle - " + ownersStr, email, views.html.withNav(content, zoom)))
   }
 
   def showLogin = Action { request =>
-
     val emailForm = Form(
       single(
         "email" -> email
       )
     )
-
-    val zoom = request.getQueryString("zoom").getOrElse("details")
-    Ok(views.html.template("login", "", views.html.login(emailForm, ""), zoom))
+    Ok(views.html.template("login", "", views.html.withOutNav(views.html.login(emailForm, ""))))
   }
 
   def login = Action {
@@ -75,11 +86,10 @@ class MainController extends Controller with ControllerUtils{
           "email" -> email
         )
       )
-      val zoom = request.getQueryString("zoom").getOrElse("details")
 
       emailForm.bindFromRequest().fold(
         formWithErrors => {
-          BadRequest(views.html.template("login error", "", views.html.login(emailForm, "invalid email address"), zoom))
+          BadRequest(views.html.template("login error", "", views.html.withOutNav(views.html.login(emailForm, "invalid email address"))))
         },
         userData => {
           //          loginService.login(userData)

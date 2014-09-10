@@ -231,16 +231,11 @@ h1 .titleText {
 }
 
 #container {
-    layout: flow-horizontal;
+    clear: both;
 }
 
 .eventsContainer {
-    layoutConstraints: wgrow;
     layout: flow-horizontal;
-}
-
-.events {
-    width: 100%;
 }
 
 .eventsContainer > div {
@@ -261,6 +256,10 @@ ul.dayList > li.dayTemplate {
 
 ul.dayList > li.dayTemplate, ul.dayList ul.eventList {
     clear: both;
+}
+
+ul.tagList {
+    float: left;
 }
 
 li.dayTemplate ul.eventList > li {
