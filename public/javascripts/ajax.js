@@ -19,8 +19,8 @@ function loadDocumentFragments() {
     firstOnes.done(function () {
             var promises = loadLoadable($(document));
             $.when.apply($, promises).always(function () {
+                stackFileVersions();
                 if (getParameterByName("zoom") != "day") {
-                    stackFileVersions();
                     hideDuplicateDateCategories();
                 }
                 highlightTags();
@@ -29,7 +29,7 @@ function loadDocumentFragments() {
             });
     });
 
-    bindEvents($(document));
+    bindDocumentEvents();
 }
 
 function loadTimelines(context) {

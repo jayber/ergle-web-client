@@ -47,15 +47,15 @@ body > section {
 
 header {
     display: block;
+    color: #000000;
     background-color: #ffffff;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #e5e5e5;
     text-align: left;
     layout: flow-horizontal-right;
 }
 
 header .action {
     padding: 10px;
-    border-left: 1px solid #cccccc;
     display: block;
 }
 
@@ -100,15 +100,17 @@ header .dropdown .action, header .dropdown.action {
 }
 
 nav {
+    top: -1px;
     background-color: #ffffff;
-    border-bottom: 1px solid #cccccc;
-    border-left: 1px solid #cccccc;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    border-left: 1px solid #e5e5e5;
     display: block;
     float: right;
+    position: relative;
 }
 
 nav a {
-    border-right: 1px solid #cccccc;
 }
 
 nav a, nav span {
@@ -198,6 +200,7 @@ nav a.selected {
     background-repeat: no-repeat;
     background-size: 15px;
     padding-left: 20px;
+    width: 189px;
 }
 
 .eventForm .dateInput {
@@ -210,6 +213,73 @@ nav a.selected {
 
 .eventForm .shareToInput {
     background-image: url('/assets/images/user.svg');
+}
+
+.fileInput {
+    position: absolute;
+    -moz-opacity: 0;
+    filter: alpha(opacity:0);
+    opacity: 0;
+    z-index: 2;
+}
+
+.fileInputWrapper {
+    top: -5px;
+    position: relative;
+    margin: 5px 0 10px;
+}
+
+.fileInput:hover {
+    cursor: pointer;
+}
+
+.fileInputMask {
+    color: #aaaaaa;
+    z-index: 1;
+    position: absolute;
+    background-image: url('/assets/images/clip.svg');
+}
+
+.attachedFiles {
+    margin-top: 25px;
+    display: none;
+}
+
+.attachedFiles img {
+    max-width: 100px;
+}
+
+.attachedFiles .attachment {
+    width: 106px;
+    padding: 0;
+}
+
+.attachedFiles .attachment > div {
+    padding: 3px;
+}
+
+.attachedFiles .title {
+    border-bottom: 1px solid #dddddd;
+    position: relative;
+}
+
+.attachedFiles .title a:hover {
+    background-color: #f3f3f3;
+}
+
+.attachedFiles .title a:active {
+    background-color: #dddddd;
+}
+
+.attachedFiles .title a {
+    position: absolute;
+    right: 0;
+}
+
+.attachedFiles .title img {
+    width: 18px;
+    position: relative;
+    right: 0;
 }
 
 .eventForm textarea.text {
@@ -261,6 +331,10 @@ td.odd, .odd ul.tagList ul.eventTypeList {
     background-color: #eaeaea;
 }
 
+.future td.odd, .future .odd ul.tagList ul.eventTypeList {
+    background-color: #e0eeff;
+}
+
 .even ul.tagList ul.eventTypeList {
     background-color: #F5F5F5;
 }
@@ -293,6 +367,7 @@ ul.eventList > li .body, .versions {
 
 ul.tagList ul.eventList > li .body {
     max-height: 350px;
+    overflow: hidden;
 }
 
 ul.eventList > li .title {
@@ -365,6 +440,10 @@ ul.tagList > li {
 
 .future .dateCategory {
     background-color: #aabbFF;
+}
+
+.future td, tr.future {
+      background-color: #eff5ff;
 }
 
 ul.eventList > li .eventType, ul.eventTypeList > li > div {
@@ -464,6 +543,7 @@ ul.tagList ul.eventList > li .comments {
     margin: 1px 0 0 0;
     background-color: #ffffff;
     padding: 5px;
+    display: block;
 }
 
 ul.eventList > li .comments button {
@@ -539,8 +619,8 @@ ul.eventList pre.message {
     text-align: center;
     margin-top: 5px;
     margin-bottom: 12px;
-    color: #bbbbbb;
-    border-bottom: 2px solid #bbbbbb;
+    color: #a0bbff;
+    border-bottom: 2px solid #a0bbff;
     padding-bottom: 2px;
 }
 

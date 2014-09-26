@@ -11,8 +11,8 @@ GET         /settings                                                           
 POST        /settings                                                                         @controllers.erglewebclient.SettingsController.save
 GET         /removeSetting                                                                    @controllers.erglewebclient.SettingsController.remove
 
-GET         /timelines/$owners<[^@&/]+@[^/&@]+(/[^/&]+)?(&[^@&/]+@[^/&@]+(/[^/&]+)?)*>        @controllers.erglewebclient.MainController.multipleTimelines(owners)
-GET         /$owner<[^@&/]+@[^/&@]+(/[^/&]+)?>                                                @controllers.erglewebclient.MainController.index(owner)
+GET         /timelines/$owners<[^@&/]*@[^/&@]+(/[^/&]+)?(&[^@&/]*@[^/&@]+(/[^/&]+)?)*>        @controllers.erglewebclient.MainController.multipleTimelines(owners)
+GET         /$owner<[^@&/]*@[^/&@]+(/[^/&]+)?>                                                @controllers.erglewebclient.MainController.index(owner)
 
 
 # Map static resources from the /public folder to the /assets URL path

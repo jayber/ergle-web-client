@@ -12,19 +12,25 @@
 
     <form method="post" action="/events/?@queryString">
         <input id="typeField" type="hidden" name="type">
-        <section id="messageFields">
-            <textarea class="text titleInput" tabindex="1" name="message" placeholder="enter message"></textarea>
+
+        <section>
+            <div id="messageFields" class="optional">
+                <textarea class="text titleInput" tabindex="1" name="message" placeholder="enter message"></textarea>
+            </div>
+
+            <div id="intentFields" class="optional">
+                <input class="text titleInput" tabindex="1" name="title" placeholder="enter title"><br>
+                <input class="datetimepicker field dateInput" tabindex="4" type="datetime" name="date" placeholder="enter date/time"><br>
+            </div>
 
             <input class="field tagInput" tabindex="2" name="tag" placeholder="enter tag">
             <input class="field shareToInput" tabindex="3" name="shareTo" placeholder="email or hub"><br>
-        </section>
-
-        <section id="intentFields">
-            <input class="text titleInput" tabindex="1" name="title" placeholder="enter title"><br>
-
-            <input class="field tagInput" tabindex="2" name="tag" placeholder="enter tag">
-            <input class="field shareToInput" tabindex="3" name="shareTo" placeholder="email or hub"><br>
-            <input class="datetimepicker field dateInput" tabindex="4" type="datetime" name="date" placeholder="enter date/time">
+            <div class="fileInputWrapper">
+                <input type="file" name="file" size='1' class="fileInput" />
+                <div class="field fileInputMask">click to attach files</div>
+            </div>
+            <div class="attachedFiles"></div>
+            <br>
         </section>
 
         <button class="post" type="submit" tabindex="5">post</button>
